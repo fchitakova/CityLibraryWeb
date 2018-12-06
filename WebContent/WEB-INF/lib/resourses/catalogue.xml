@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<books>
+  <book>
+    <title>kaka</title>
+    <author>is</author>
+    <copies>1</copies>
+  </book>
+  <book>
+    <title>kss</title>
+    <author>kskw</author>
+    <copies>1</copies>
+  </book>
+</books>

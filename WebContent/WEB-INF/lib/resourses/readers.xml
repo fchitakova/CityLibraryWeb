@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<readers>
+  <reader>
+    <name>ani</name>
+  </reader>
+  <reader>
+    <name>eli</name>
+    
+  </reader>
+</readers>
