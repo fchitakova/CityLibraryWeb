@@ -18,7 +18,7 @@ import main.java.LibraryBook;
 import main.java.Reader;
 
 /**
- * Base interface which provies methods for showing user interface of library
+ * Base interface which provides methods for showing user interface of library
  * application and communicating with the user.This interface implementation can
  * support different UI languages.
  * 
@@ -36,7 +36,7 @@ public abstract class View {
 	 */
 	protected PropertyResourceBundle languageResources;
 	/**
-	 * Contains infromation for the current language.
+	 * Contains information for the current language.
 	 */
 	private String currentLanguage;
 
@@ -123,10 +123,13 @@ public abstract class View {
 	public abstract Book chooseFromAvaialbale(Set<LibraryBook> books);
 
 	/**
-	 * Shows user interface which contains options menu.
+	 *This method gets user's input and returns 
+	 *integer corresponding to the action chosen 
+	 *by the user.
 	 */
-	public abstract void showUI();
-
+	public abstract int  getChosenAction();
+	
+	
 	/**
 	 * This method asks the user to enter information with inviting messege stored
 	 * in @param infoMessege. This message indicates the type of information which

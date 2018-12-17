@@ -60,9 +60,9 @@ public class LibraryController implements Serializable {
 	/**
 	 * Creates new LibraryController using the project setting properties in the
 	 * property file. IMPORTANT:If property file reading attempt fails , created
-	 * library is with default console main.java.view with english language and file
-	 * system persistency. If the persistency type is database but the connection
-	 * with the server fails again the default persistency will be the file system.
+	 * library is with default console main.java.view with English language and file
+	 * system persistence. If the persistence type is database but the connection
+	 * with the server fails again the default persistence will be the file system.
 	 * 
 	 * @param propertyFileName is the property file containing the library settings.
 	 * @throws TransformerFactoryConfigurationError
@@ -163,19 +163,14 @@ public class LibraryController implements Serializable {
 				Constants.NOT_ANY_BOOKS_WITH_TITLE);
 	}
 
-	/**
-	 * Shows user interface and waits for valid user choice.When user enters valid
-	 * choice corresponding method is invoked.
-	 * 
-	 * @throws Exception
-	 */
+    /**
+     * This method gets choice number from application's view.
+     * Then the number is used for invoking the right method for the corresponding user choice. 
+     * @throws Exception
+     */
 	public void runMenu() throws Exception {
-		int choice;
-		do {
-			appView.showUI();
-			choice = appView.getChoice(Constants.CONSOLE_MENU_LOWER_BOUND, Constants.CONSOLE_MENU_UPPER_BOUND);
-			processUserChoice(choice);
-		} while (choice != Constants.EXIT_COMMAND_ID);
+		int choice=appView.getChosenAction();
+		processUserChoice(choice);
 	}
 
 	/**

@@ -55,12 +55,28 @@ public class ConsoleView extends View {
 	}
 
 	/**
-	 * Shows the user interface containing menu options.
+	 * Shows the user interface and waits for valid input choice.When valid choice
+	 * is entered it is returned.
+	 * 
+	 * @throws Exception
 	 */
 	@Override
+	public int getChosenAction(){
+		int choice;
+		do {
+			showUI();
+			choice = getChoice(Constants.CONSOLE_MENU_LOWER_BOUND, Constants.CONSOLE_MENU_UPPER_BOUND);
+		} while (choice != Constants.EXIT_COMMAND_ID);
+		return choice;
+	}
+
+	/**
+	 * Shows the user interface containing menu options.
+	 */
+	
 	public void showUI() {
 		printMessage("\n\n\n");
-		printMessage(getResource(Constants.TITLE)+"\n\n\n");
+		printMessage(getResource(Constants.TITLE) + "\n\n\n");
 		printResource(Constants.PRESS);
 		printMessage(Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE_ID + Constants.DELIMITER);
 		printResource(Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE);
@@ -151,7 +167,7 @@ public class ConsoleView extends View {
 		boolean isValidInput = false;
 		do {
 			if (invalidTryNumber > 0) {
-				printMessage(getResource(ifNotValidMessage)+TRY_AGAIN_MESSAGE);
+				printMessage(getResource(ifNotValidMessage) + TRY_AGAIN_MESSAGE);
 			} else {
 				printResource(infoMessege);
 			}
@@ -290,11 +306,13 @@ public class ConsoleView extends View {
 	}
 
 	/**
-	 * Gets user choice for any menu and checks if it is valid. The user choice is
-	 * valid if it is between @param menuLowerBound and @param menuUpperBound or is
-	 * positive integer.If the choice is not valid the same procedure is repeated
-	 * until invalid choice attempts are less than MAX_INVALID_CHOICE_NUMBER
-	 * constant.
+	 * Gets user choice and checks if it is valid. The choice is
+	 * valid if it is between @param menuLowerBound and @param menuUpperBound values.
+	 * If the choice is not valid the same procedure is repeated until input attempts are 
+	 * less than MAX_INVALID_CHOICE_NUMBER
+	 * 
+	 * @param menuLowerBound is the lower limit of the numbers which are mapped to command choices
+	 * @param menuUpperBound is the upper limit of the numbers which are mapped to command choices 
 	 * 
 	 * @return userChoice or INVALID_CHOICE constant
 	 */
