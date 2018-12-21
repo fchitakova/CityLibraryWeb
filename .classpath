@@ -14,5 +14,8 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/Users/i356406/Documents/junit.jar"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="lib" path="C:/Users/i356406/Documents/sqljdbc_4.2/enu/jre8/sqljdbc42.jar"/>
+	<classpathentry kind="lib" path="C:/Users/i356406/Downloads/apache-tomcat-9.0.13/lib/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/i356406/EEeclipse-workspace/CityLibraryWeb/WebContent/WEB-INF/lib/jstl-1.2.jar"/>
+	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

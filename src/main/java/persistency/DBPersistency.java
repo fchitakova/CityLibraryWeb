@@ -13,7 +13,7 @@ import main.java.ConnectionPool;
 import main.java.Catalogue;
 import main.java.Constants;
 import main.java.LibraryBook;
-import main.java.LibraryController;
+import main.java.LibraryModel;
 import main.java.Reader;
 import main.java.Readers;
 
@@ -53,7 +53,7 @@ public class DBPersistency implements Persistency {
 	private static final String SELECT = "select ";
 	private static final String FROM = " from ";
 	private static final String WHERE = " where ";
-	private static final int INITIAL_CONNECTIONS_SIZE=10;
+	private static final int INITIAL_CONNECTIONS_SIZE = 10;
 	private String takenBooksTable;
 	private String readersTable;
 	private String booksTable;
@@ -64,14 +64,13 @@ public class DBPersistency implements Persistency {
 	 * properties file and the username and password passed as arguments.
 	 * 
 	 * @throws IOException
-	 * @throws ClassNotFoundException 
+	 * @throws ClassNotFoundException
 	 */
-	public DBPersistency(char[] username, char[] password)
-			throws  SQLException, IOException, ClassNotFoundException {
+	public DBPersistency(char[] username, char[] password) throws SQLException, IOException, ClassNotFoundException {
 
-		connectionPool=new ConnectionPool(INITIAL_CONNECTIONS_SIZE, true, username, password);
+		connectionPool = new ConnectionPool(INITIAL_CONNECTIONS_SIZE, true, username, password);
 		Properties databaseProperties = new Properties();
-		FileInputStream fileInput = new FileInputStream(LibraryController.DATABASE_PROPERTIES_FILEPATH);
+		FileInputStream fileInput = new FileInputStream(LibraryModel.DATABASE_PROPERTIES_FILEPATH);
 		databaseProperties.load(fileInput);
 		takenBooksTable = databaseProperties.getProperty(RELATIONSHIP_TABLE);
 		readersTable = databaseProperties.getProperty(READERS_TABLE);
@@ -80,10 +79,11 @@ public class DBPersistency implements Persistency {
 
 	/**
 	 * Loads all readers from the database.
-	 * @throws IOException 
-	 * @throws PropertyVetoException 
-	 * @throws SQLException 
-	 * @throws Exception 
+	 * 
+	 * @throws IOException
+	 * @throws PropertyVetoException
+	 * @throws SQLException
+	 * @throws Exception
 	 */
 	@Override
 	public Readers loadReaders() throws SQLException, IOException {
@@ -101,8 +101,7 @@ public class DBPersistency implements Persistency {
 	 * @throws IOException
 	 * @throws PropertyVetoException
 	 */
-	private void loadReadersFromReadersTable(Readers readersToLoad)
-			throws SQLException, IOException {
+	private void loadReadersFromReadersTable(Readers readersToLoad) throws SQLException, IOException {
 		StringBuilder selectReadersWithNoTakenBooks = new StringBuilder(
 				SELECT + READER_NAME_COL + FROM + readersTable + WHERE + READER_NAME_COL + NOT_IN + '(' + SELECT
 						+ DISTINCT + READER_NAME_COL + FROM + takenBooksTable + ");");
@@ -140,8 +139,7 @@ public class DBPersistency implements Persistency {
 	 * @throws IOException
 	 * @throws PropertyVetoException
 	 */
-	private void loadReadersWithTakenBooks(Readers readersToLoad)
-			throws  IOException, SQLException {
+	private void loadReadersWithTakenBooks(Readers readersToLoad) throws IOException, SQLException {
 		StringBuilder selectReadersWithTakenBooks = new StringBuilder(
 				SELECT + READER_NAME_COL + ',' + BOOK_TITLE_COL + ',' + BOOK_AUTHOR_COL + FROM + takenBooksTable + ';');
 
@@ -158,7 +156,7 @@ public class DBPersistency implements Persistency {
 				String title = queryResult.getString(BOOK_TITLE_COL);
 				String author = queryResult.getString(BOOK_AUTHOR_COL);
 				Book bookToAdd = new Book(author, title);
-				Reader searchedReader = readersToLoad.getReaderFromSet(newReader);
+				Reader searchedReader = readersToLoad.getReaderFromSet(name);
 				if (searchedReader == null) {
 					readersToLoad.add(newReader);
 					newReader.addBook(bookToAdd);
@@ -182,10 +180,11 @@ public class DBPersistency implements Persistency {
 
 	/**
 	 * Loads books from the database's books table.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	@Override
-	public Catalogue loadBookCatalogue() throws SQLException{
+	public Catalogue loadBookCatalogue() throws SQLException {
 		Catalogue toLoad = new Catalogue();
 		StringBuilder selectAllBooks = new StringBuilder(SELECT_ALL + FROM + booksTable);
 		Connection connection = null;
@@ -217,9 +216,10 @@ public class DBPersistency implements Persistency {
 
 	/**
 	 * This method registers new reader if he/she is not already registered.
-	 * @throws IOException 
-	 * @throws PropertyVetoException 
-	 * @throws SQLException 
+	 * 
+	 * @throws IOException
+	 * @throws PropertyVetoException
+	 * @throws SQLException
 	 */
 	@Override
 	public void addReader(Reader reader) throws SQLException, PropertyVetoException, IOException {
@@ -284,15 +284,15 @@ public class DBPersistency implements Persistency {
 	/**
 	 * Adds @param book to the database's book table.If the book is already there
 	 * its copies number is updated.
-	 * @throws SQLException 
-	 * @throws IOException 
-	 * @throws PropertyVetoException 
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 * @throws PropertyVetoException
 	 */
 	@Override
 	public void addBook(Book book) throws SQLException, PropertyVetoException, IOException {
 		if (retrieveBooksCopies(book) != NOT_EXISTING_BOOK) {
 			updateBookCopies(book, Constants.STANDARD_COPY_ADD_NUM);
-			return;
 		}
 		StringBuilder insertQuery = new StringBuilder(INSERT_INTO + booksTable + VALUES + "('" + book.getTitle() + "','"
 				+ book.getAuthor() + "'," + Constants.STANDARD_COPY_ADD_NUM + ");");
@@ -388,9 +388,12 @@ public class DBPersistency implements Persistency {
 	/**
 	 * Updates the copy number of the returned book and deletes it from the
 	 * returning reader's book list.
+	 * @throws IOException 
+	 * @throws PropertyVetoException 
+	 * @throws SQLException 
 	 */
 	@Override
-	public void returnBook(Reader reader, Book book) throws Exception {
+	public void returnBook(Reader reader, Book book) throws SQLException, PropertyVetoException, IOException {
 		updateBookCopies(book, Constants.STANDARD_COPY_ADD_NUM);
 		StringBuilder deleteBookQuery = new StringBuilder(DELETE + FROM + takenBooksTable + WHERE + READER_NAME_COL
 				+ "='" + reader.getName() + "'" + AND + BOOK_TITLE_COL + "='" + book.getTitle() + "'" + AND
@@ -416,12 +419,13 @@ public class DBPersistency implements Persistency {
 	 * reader has not already taken that book. If all conditions are true @param
 	 * book is added to @param reader's booklist and book's available copies are
 	 * decremented.
-	 * @throws SQLException 
-	 * @throws IOException 
-	 * @throws PropertyVetoException 
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 * @throws PropertyVetoException
 	 */
 	@Override
-	public void giveBookToReader(Reader reader, Book book) throws SQLException, PropertyVetoException, IOException{
+	public void giveBookToReader(Reader reader, Book book) throws SQLException, PropertyVetoException, IOException {
 		boolean readerExists = checkIfReaderExists(reader);
 		boolean availableBook = retrieveBooksCopies(book) > 0;
 		boolean notAlreadyTaken = !bookAlreadyTakenFromReader(reader, book);
@@ -465,7 +469,8 @@ public class DBPersistency implements Persistency {
 		ResultSet result = null;
 		int resCount = 0;
 		try {
-			connection = connectionPool.getConnection();;
+			connection = connectionPool.getConnection();
+			;
 			statement = connection.prepareStatement(checkIfBookIsAlreadyTaken.toString());
 			result = statement.executeQuery();
 			result.next();

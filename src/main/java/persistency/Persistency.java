@@ -17,15 +17,16 @@ import main.java.Reader;
 import main.java.Readers;
 
 /**
- * Base interface for persistency which holds information about library books and readers.
- * Every change of library's state reflects persistency.
+ * Base interface for persistence which stores information about library books and readers.
+ * This interface provides methods for data transactions and some operations like adding book and reader,
+ * giving book to a reader and returning book.
  * @author I356406
  *
  */
 public interface Persistency {
 
 	/**
-	 * Loads Readers from persistency and return them.
+	 * Loads Readers from the persistence and return them.
 	 * @throws ParserConfigurationException 
 	 * @throws SAXException 
 	 * @throws Exception
@@ -33,7 +34,7 @@ public interface Persistency {
 	public Readers loadReaders() throws SQLException, IOException, ParserConfigurationException, SAXException;
 
 	/**
-	 * Loads books catalogue from persistency and return reference to it.
+	 * Loads books catalog from persistence and return reference to it.
 	 * @throws ParserConfigurationException 
 	 * @throws IOException 
 	 * @throws SAXException 
@@ -41,7 +42,7 @@ public interface Persistency {
 	public Catalogue loadBookCatalogue() throws SQLException, ParserConfigurationException, SAXException, IOException;
 
 	/**
-	 * Adds new reader to persistency if it is not already there.
+	 * Adds new reader to persistence if it is not already there.
 	 * @param reader is the reader to add
 	 * @throws ParserConfigurationException 
 	 * @throws TransformerFactoryConfigurationError 
@@ -54,7 +55,7 @@ public interface Persistency {
 	public abstract void addReader(Reader reader) throws ParserConfigurationException, TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError, SQLException, PropertyVetoException, IOException;
 
 	/**
-	 * Adds @param book to the catalogue persistency.If the book is already there
+	 * Adds @param book to the catalog persistency.If the book is already there
 	 * new copy of it is added.
 	 * @throws TransformerFactoryConfigurationError 
 	 * @throws TransformerException 
@@ -66,7 +67,7 @@ public interface Persistency {
 
 	/**
 	 * This method checks if passed reader and book arguments are in persistency.
-	 * If they are in persistency,firstly book's information is deleted from
+	 * If they are in persistence,firstly book's information is deleted from
 	 * reader's book list and then copies of that books are incremented. 
 	 * 
 	 * @param book is the book which should be returned.
@@ -74,7 +75,7 @@ public interface Persistency {
 	 * @throws Exception 
 	 * @throws TransformerFactoryConfigurationError 
 	 */
-	public abstract void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError, Exception ;
+	public abstract void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError,SQLException, PropertyVetoException, IOException, Exception;
 
 	/**
 	 * This method checks if passed reader and book arguments are in persistency.

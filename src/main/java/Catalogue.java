@@ -41,7 +41,7 @@ public class Catalogue implements Serializable {
 	}
 
 	/**
-	 * This method returns all the books in catalogue.
+	 * This method returns all the books in catalog.
 	 * 
 	 * @return
 	 */
@@ -58,7 +58,7 @@ public class Catalogue implements Serializable {
 	 *                     will be compared
 	 */
 
-	public Set<LibraryBook> searchByTitle(String searchedTitle) {
+	public Set<Book> searchByTitle(String searchedTitle) {
 		return libraryBooks.stream().filter(b -> matches(searchedTitle, b.getTitle())).collect(Collectors.toSet());
 	}
 
@@ -118,8 +118,8 @@ public class Catalogue implements Serializable {
 	}
 
 	/**
-	 * This method adds @param bookToAdd to catalogue if the book is not already there.
-	 *  If catalogue already contains book ,its copies number is incremented.
+	 * This method adds @param bookToAdd to catalog if the book is not already there.
+	 *  If catalog already contains book ,its copies number is incremented.
 	 */
 	public void addBook(Book bookToAdd) {
 		LibraryBook searched = checkForBook(bookToAdd);
@@ -131,8 +131,8 @@ public class Catalogue implements Serializable {
 	}
 
 	/**
-	 * This method checks if the book is in the catalogue and if it is return
-	 * reference to it. Otherwise return null.
+	 * This method checks if the book is in the catalogue and if it is returns
+	 * reference to it. Otherwise returns null.
 	 * 
 	 * @param book is the searched book
 	 */

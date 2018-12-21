@@ -128,7 +128,7 @@ public class ConnectionPool implements Runnable {
 	 */
 	private void initDatabaseProperties() throws IOException, FileNotFoundException {
 		Properties databaseProperties = new Properties();
-		try (FileInputStream fileInput = new FileInputStream(LibraryController.DATABASE_PROPERTIES_FILEPATH)) {
+		try (FileInputStream fileInput = new FileInputStream(LibraryModel.DATABASE_PROPERTIES_FILEPATH)) {
 			databaseProperties.load(fileInput);
 			driverName = databaseProperties.getProperty(DRIVER_CLASS_NAME);
 			url = databaseProperties.getProperty(JDBC_URL) + databaseProperties.getProperty(SERVER_NAME) + ":"

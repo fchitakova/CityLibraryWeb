@@ -470,10 +470,15 @@ public class XmlDOMPersistency implements Persistency {
 	 * @param book   is the book which is being returned.
 	 * @param reader is the reader which returns.
 	 * @throws TransformerFactoryConfigurationError 
+	 * @throws TransformerException 
+	 * @throws TransformerConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
 	 * @throws Exception 
 	 */
 	@Override
-	public void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError, Exception{
+	public void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError, TransformerConfigurationException, TransformerException, ParserConfigurationException, SAXException, IOException{
 		Element readerToModify = findReader(reader);
 		if (readerToModify == null) {
 			return;

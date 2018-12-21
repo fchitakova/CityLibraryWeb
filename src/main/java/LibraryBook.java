@@ -1,4 +1,5 @@
 package main.java;
+import java.io.Serializable;
 
 /**
  * LibraryBook class extends Book.
@@ -10,7 +11,7 @@ package main.java;
  *
  */
 
-public class LibraryBook extends Book {
+public class LibraryBook extends Book implements Serializable  {
 
 	private final static String COPIES_NUMBER_MESSEGE = "\n\t Available copies:";
 

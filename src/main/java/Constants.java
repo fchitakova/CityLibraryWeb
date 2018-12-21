@@ -10,6 +10,7 @@ public final class Constants {
 	private Constants(){
 		
 	}
+
 	public static final String EMPTY_MESSAGE="";
 	public static final String SEE_ALL_BOOKS_SORTED_BY_TITLE = "SEE_ALL_BOOKS_SORTED_BY_TITLE";
 	public static final String SEE_ALL_BOOKS_SORTED_BY_AUTHOR = "SEE_ALL_BOOKS_SORTED_BY_AUTHOR";

@@ -3,7 +3,8 @@ package main.java;
 import java.util.HashSet;
 
 /**
- * This is reader wrapper class.It contains set of readers and provides access to the information.
+ * This is reader wrapper class.It contains set of readers and provides access
+ * to the information.
  * 
  * @author I356406
  *
@@ -18,7 +19,7 @@ public class Readers {
 	}
 
 	public HashSet<Reader> getReaders() {
-		 return readers;
+		return readers;
 	}
 
 	public void setReaders(HashSet<Reader> readers) {
@@ -34,19 +35,18 @@ public class Readers {
 	}
 
 	/**
-	 * This method checks if the reader is in the reader's set and if it is there returns
-	 * reference to it. Otherwise returns null.
+	 * This method checks for a reader with name @param readerName. If such a reader
+	 * is registered, it is returned. Otherwise null is returned.
 	 * 
-	 * @param reader is the reference to the searched reader's object representation
+	 * @param readerName is the name of searched reader
 	 */
-	public Reader getReaderFromSet(Reader reader) {
-		if (readers.contains(reader)) {
-			for (Reader i : readers) {
-				if (i.equals(reader)) {
-					return i;
-				}
+	public Reader getReaderFromSet(String readerName) {
+		for (Reader i : readers) {
+			if (i.getName().equals(readerName)) {
+				return i;
 			}
 		}
+
 		return null;
 	}
 }
