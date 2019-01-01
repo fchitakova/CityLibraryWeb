@@ -43,18 +43,6 @@ public interface View {
 	 */
 	public void printAvailableBooks(String infoMessage, String errorMessage);
 	
-	/**
-	 * This method finds @param propertyName's right representation depending on
-	 * current language and prints it to application main.java.view.
-	 * 
-	 * @param propertyName is name of message in the properties file
-	 */
-	public void printResource(String propertyName);
-
-	/**
-	 * Prints to application main.java.view the message passed as an argument .
-	 */
-	public void printMessage(String message);
 
 	/**
 	 * Prints list of readers from which user can choose.

@@ -28,16 +28,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>WebContent/images/bulgarflag.gif</name>
-			<type>1</type>
-			<location>C:/Users/i356406/Desktop/bulgarflag.gif</location>
-		</link>
-		<link>
-			<name>WebContent/images/en_flag_imagelarge.jpg</name>
-			<type>1</type>
-			<location>C:/Users/i356406/Desktop/en_flag_imagelarge.jpg</location>
-		</link>
-	</linkedResources>
 </projectDescription>

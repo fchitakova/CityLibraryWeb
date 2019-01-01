@@ -12,8 +12,9 @@ public final class Constants {
 	}
 
 	public static final String EMPTY_MESSAGE="";
-	public static final String SEE_ALL_BOOKS_SORTED_BY_TITLE = "SEE_ALL_BOOKS_SORTED_BY_TITLE";
-	public static final String SEE_ALL_BOOKS_SORTED_BY_AUTHOR = "SEE_ALL_BOOKS_SORTED_BY_AUTHOR";
+	public static final String SEE_ALL_BOOKS="SEE_ALL_BOOKS";
+	public static final String SORTED_BY_TITLE = "SORTED_BY_TITLE";
+	public static final String SORTED_BY_AUTHOR = "SORTED_BY_AUTHOR";
 	public static final String SEE_AVAILABLE_BOOKS = "SEE_AVAILABLE_BOOKS";
 	public static final String GIVE_BOOK_TO_READER = "GIVE_BOOK_TO_READER";
 	public static final String RETURN_BOOK = "RETURN_BOOK";
@@ -50,6 +51,7 @@ public final class Constants {
 	public static final String CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
 	public static final String CHOOSE_BOOK_MESSAGE="CHOOSE_BOOK_MESSAGE";
     public static final String CHOOSE_READER_MESSAGE="CHOOSE_READER_MESSAGE";
+    public static final String HAS_AVAILABLE_COPIES="HAS_AVAILABLE_COPIES";
 	public static final String EXIT = "EXIT";
 	public static final String GET_CHOICE = "GET_CHOICE";
 	public static final String LANGUAGE = "language";
@@ -71,9 +73,9 @@ public final class Constants {
 	public static final String INVALID_CHOICE_PROPERTY = "INVALID_CHOICE";
 	public static final String GOODBYE = "GOODBYE";
 	public static final String PROPERTIES_FILE_EXTENSION = ".properties";
-	public static final String BOOKS_XML_FILE_PATH = "src\\main\\java\\resources\\catalogue.xml";
-	public static final String READERS_XML_FILE_PATH = "src\\main\\java\\resources\\readers.xml";
-	public static final String LIBRARY_PROPERTIES_FILE = "src\\main\\java\\resources\\library.properties";
+	public static final String BOOKS_XML_FILE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\catalogue.xml";
+	public static final String READERS_XML_FILE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\readers.xml";
+	public static final String LIBRARY_PROPERTIES_FILE = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourseslibrary.properties";
 	public static final String DATABASE_PROPERTIES_FILE="databasePersistencyPropertiesFile";
 	public static final String UTF_8_ENCODING = "UTF-8";
 	public static final String XML_BOOK_ELEMENT="book";

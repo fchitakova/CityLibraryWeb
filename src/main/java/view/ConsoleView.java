@@ -2,17 +2,12 @@ package main.java.view;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.PropertyResourceBundle;
 import java.util.Scanner;
 import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,20 +31,14 @@ import main.java.exceptions.ReaderException;
 public class ConsoleView implements View {
 
 	private static final String TRY_AGAIN_MESSAGE = "Try again:\n";
-	private static final String HAS_AVAILABLE_COPIES = " \n              available copies:";
-	public static final String RESOURCE_BUNDLE_BASE_PATH = "WebContent\\WEB-INF\\lib\\resourses\\languageResources_";
-	public static final String BG_LANGUAGE_INITIALS = "bg_BG";
-	public static final String EN_LANGUAGE_INITIALS = "en";
 	/**
 	 * The maximum possible invalid input tries.
 	 */
 	private static final int MAX_INVALID_INPUT_TRIES = 2;
 
-	protected PropertyResourceBundle languageResources;
-
-	private String currentLanguage;
-
 	private LibraryModel libraryDataController;
+
+	private ResourseManager languageResouces;
 
 	/**
 	 * Creates new ConsoleView.
@@ -65,14 +54,15 @@ public class ConsoleView implements View {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws TransformerConfigurationException
+	 * @throws                                      jdk.internal.org.xml.sax.SAXException
 	 * @throws Exception
 	 */
-	public ConsoleView(String language) throws IOException, TransformerConfigurationException, InstantiationException,
+	public ConsoleView() throws IOException, TransformerConfigurationException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, TransformerFactoryConfigurationError,
-			ParserConfigurationException, TransformerException, SAXException, SQLException, PropertyVetoException {
-		this.libraryDataController = new LibraryModel("WebContent\\WEB-INF\\lib\\resourses\\library.properties");
-		currentLanguage = language;
-		initResourceBundle();
+			ParserConfigurationException, TransformerException, SAXException, SQLException, PropertyVetoException,
+			jdk.internal.org.xml.sax.SAXException {
+		libraryDataController = new LibraryModel("WebContent\\WEB-INF\\lib\\resourses\\library.properties");
+		languageResouces = new ResourseManager();
 	}
 
 	/**
@@ -88,7 +78,7 @@ public class ConsoleView implements View {
 		printResource(Constants.REGISTERED_READERS_MESSAGE);
 		System.out.println();
 		for (Reader i : registeredReaders) {
-			printMessage(i.getName() + '\n');
+			System.out.println(i.getName());
 		}
 
 	}
@@ -132,18 +122,19 @@ public class ConsoleView implements View {
 
 		case Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE_ID: {
 			List<LibraryBook> sortedBooks = libraryDataController.getBooksSorted(Constants.SORT_BY_TITLE_ID);
-			printBooks(sortedBooks, getResource(Constants.PRINT_ALL_BOOKS), Constants.NOT_ANY_BOOKS);
+			printBooks(sortedBooks, Constants.PRINT_ALL_BOOKS, Constants.NOT_ANY_BOOKS);
 			break;
 		}
 
 		case Constants.SEE_ALL_BOOKS_SORTED_BY_AUTHOR_ID: {
 			List<LibraryBook> sortedBooks = libraryDataController.getBooksSorted(Constants.SORT_BY_AUTHOR_ID);
-			printBooks(sortedBooks, getResource(Constants.PRINT_ALL_BOOKS), Constants.NOT_ANY_BOOKS);
+			printBooks(sortedBooks, Constants.PRINT_ALL_BOOKS, Constants.NOT_ANY_BOOKS);
 			break;
 		}
 
 		case Constants.SEE_AVAILABLE_BOOKS_ID: {
-			printAvailableBooks(libraryDataController.getAvailableBooks(), Constants.PRINT_AVAILABLE_BOOKS, Constants.NOT_ANY_BOOKS);
+			printAvailableBooks(libraryDataController.getAvailableBooks(), Constants.PRINT_AVAILABLE_BOOKS,
+					Constants.NOT_ANY_BOOKS);
 			break;
 
 		}
@@ -206,16 +197,16 @@ public class ConsoleView implements View {
 
 			String chosenReaderName = chooseReader();
 			if (chosenReaderName != null) {
-				String infoMessage = getResource(Constants.TAKEN_BOOKS_BY_READER) + chosenReaderName + ":";
-				printBooks(libraryDataController.getBooksOfReader(chosenReaderName), infoMessage, Constants.NOT_ANY_TAKEN_BOOKS);
+				String infoMessage = languageResouces.getResource(Constants.TAKEN_BOOKS_BY_READER) + chosenReaderName + ":";
+				Set<Book> readerBooks = libraryDataController.getBooksOfReader(chosenReaderName);
+				printBooks(readerBooks, infoMessage, Constants.NOT_ANY_TAKEN_BOOKS);
 			}
 			break;
 		}
 
 		case Constants.CHANGE_LANGUAGE_ID: {
 
-			changeLanguage();
-
+			languageResouces.changeLanguage();
 		}
 
 		}
@@ -240,32 +231,34 @@ public class ConsoleView implements View {
 
 		for (LibraryBook b : books) {
 
-			printMessage(b.toString() + HAS_AVAILABLE_COPIES + b.getCopies() + "\n\n");
+			System.out.println(b.toString() + getResource(Constants.HAS_AVAILABLE_COPIES) + b.getCopies() + '\n');
 
 		}
 
 	}
 
 	public void searchByAuthor() throws IOException, BookException {
-		String author = getTextInputInfo(Constants.SEARCH_BY_AUTHOR_RROPERTY, Constants.NOT_VALID_AUTHOR_NAME);
+		String author = getTextInput(Constants.SEARCH_BY_AUTHOR_RROPERTY, Constants.NOT_VALID_AUTHOR_NAME);
 		if (author == null) {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return;
 		}
 		Set<Book> books = libraryDataController.searchBooksByAuthor(author);
 
-		this.printBooks(books, getResource(Constants.PRINT_BOOKS_BY_AUTHOR), Constants.NOT_ANY_BOOKS_FROM_THIS_AUTHOR);
+		printBooks(books, Constants.PRINT_BOOKS_BY_AUTHOR,
+				Constants.NOT_ANY_BOOKS_FROM_THIS_AUTHOR);
 	}
 
 	public void searchByTitle() throws IOException {
-		String title = getTextInputInfo(Constants.SEARCH_BY_TITLE, Constants.NOT_VALID_BOOK_TITLE);
+		String title = getTextInput(Constants.SEARCH_BY_TITLE, Constants.NOT_VALID_BOOK_TITLE);
 		if (title == null) {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return;
 		}
 		Set<Book> books = libraryDataController.searchBookByTitle(title);
 
-		this.printBooks(books, getResource(Constants.PRINT_BOOKS_BY_TITLE), Constants.NOT_ANY_BOOKS_WITH_TITLE);
+		printBooks(books, Constants.PRINT_BOOKS_BY_TITLE,
+				Constants.NOT_ANY_BOOKS_WITH_TITLE);
 	}
 
 	public void registerReader() throws IOException, ReaderException, Exception {
@@ -307,9 +300,10 @@ public class ConsoleView implements View {
 
 	}
 
-	public void giveBookToReader() throws IOException, ReaderException, BookException,
-			TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError,
-			ParserConfigurationException, SAXException, SQLException, PropertyVetoException {
+	public void giveBookToReader()
+			throws IOException, ReaderException, BookException, TransformerConfigurationException, TransformerException,
+			TransformerFactoryConfigurationError, ParserConfigurationException, SAXException, SQLException,
+			PropertyVetoException, jdk.internal.org.xml.sax.SAXException {
 		String readerName;
 		try {
 			readerName = getReader();
@@ -330,9 +324,13 @@ public class ConsoleView implements View {
 			return;
 		}
 
-		String[] book = chooseFromBooks(booksToChoose);
+		String[] bookInfo = chooseFromBooks(booksToChoose);
+		if (bookInfo[0] == null || bookInfo[1] == null) {
+			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
+			return;
+		}
 
-		libraryDataController.giveBookToReader(book[0], book[1], readerName);
+		libraryDataController.giveBookToReader(bookInfo[0], bookInfo[1], readerName);
 	}
 
 	/**
@@ -340,34 +338,34 @@ public class ConsoleView implements View {
 	 */
 
 	public void showUI() {
-		printMessage("\n\n\n");
-		printMessage(getResource(Constants.TITLE) + "\n\n\n");
+		System.out.print("\n\n\n");
+		System.out.print(getResource(Constants.TITLE) + "\n\n\n");
 		printResource(Constants.PRESS);
-		printMessage(Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE_ID + Constants.DELIMITER);
-		printResource(Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE);
-		printMessage(Constants.SEE_ALL_BOOKS_SORTED_BY_AUTHOR_ID + Constants.DELIMITER);
-		printResource(Constants.SEE_ALL_BOOKS_SORTED_BY_AUTHOR);
-		printMessage(Constants.SEE_AVAILABLE_BOOKS_ID + Constants.DELIMITER);
+		System.out.print(Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE_ID + Constants.DELIMITER);
+		System.out.println(languageResouces.getResource(Constants.SEE_ALL_BOOKS)+" "+languageResouces.getResource(Constants.SORTED_BY_TITLE));
+		System.out.print(Constants.SEE_ALL_BOOKS_SORTED_BY_AUTHOR_ID + Constants.DELIMITER);
+		System.out.println(languageResouces.getResource(Constants.SEE_ALL_BOOKS)+" "+languageResouces.getResource(Constants.SORTED_BY_AUTHOR));
+		System.out.print(Constants.SEE_AVAILABLE_BOOKS_ID + Constants.DELIMITER);
 		printResource(Constants.SEE_AVAILABLE_BOOKS);
-		printMessage(Constants.GIVE_BOOK_TO_READER_ID + Constants.DELIMITER);
+		System.out.print(Constants.GIVE_BOOK_TO_READER_ID + Constants.DELIMITER);
 		printResource(Constants.GIVE_BOOK_TO_READER);
-		printMessage(Constants.RETURN_BOOK_ID + Constants.DELIMITER);
+		System.out.print(Constants.RETURN_BOOK_ID + Constants.DELIMITER);
 		printResource(Constants.RETURN_BOOK);
-		printMessage(Constants.ADD_BOOK_ID + Constants.DELIMITER);
+		System.out.print(Constants.ADD_BOOK_ID + Constants.DELIMITER);
 		printResource(Constants.ADD_BOOK);
-		printMessage(Constants.REGISTER_READER_ID + Constants.DELIMITER);
+		System.out.print(Constants.REGISTER_READER_ID + Constants.DELIMITER);
 		printResource(Constants.REGISTER_READER);
-		printMessage(Constants.SEE_ALL_READERS_ID + Constants.DELIMITER);
+		System.out.print(Constants.SEE_ALL_READERS_ID + Constants.DELIMITER);
 		printResource(Constants.SEE_ALL_READERS);
-		printMessage(Constants.SHOW_BOOKS_OF_READER_ID + Constants.DELIMITER);
+		System.out.print(Constants.SHOW_BOOKS_OF_READER_ID + Constants.DELIMITER);
 		printResource(Constants.SHOW_BOOKS_OF_READER);
-		printMessage(Constants.SEARCH_BY_TITLE_ID + Constants.DELIMITER);
+		System.out.print(Constants.SEARCH_BY_TITLE_ID + Constants.DELIMITER);
 		printResource(Constants.SEARCH_BY_TITLE);
-		printMessage(Constants.SEARCH_BY_AUTHOR_ID + Constants.DELIMITER);
+		System.out.print(Constants.SEARCH_BY_AUTHOR_ID + Constants.DELIMITER);
 		printResource(Constants.SEARCH_BY_AUTHOR_RROPERTY);
-		printMessage(Constants.CHANGE_LANGUAGE_ID + Constants.DELIMITER);
+		System.out.print(Constants.CHANGE_LANGUAGE_ID + Constants.DELIMITER);
 		printResource(Constants.CHANGE_LANGUAGE);
-		printMessage(Constants.EXIT_COMMAND_ID + Constants.DELIMITER);
+		System.out.print(Constants.EXIT_COMMAND_ID + Constants.DELIMITER);
 		printResource(Constants.EXIT);
 		System.out.println();
 		printResource(Constants.GET_CHOICE);
@@ -383,12 +381,12 @@ public class ConsoleView implements View {
 	 */
 	@Override
 	public Book getBook() throws IOException {
-		String author = getTextInputInfo(Constants.ENTER_AUTHOR, Constants.NOT_VALID_AUTHOR_NAME);
+		String author = getTextInput(Constants.ENTER_AUTHOR, Constants.NOT_VALID_AUTHOR_NAME);
 		if (author == null) {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return null;
 		}
-		String title = getTextInputInfo(Constants.ENTER_TITLE, Constants.NOT_VALID_BOOK_TITLE);
+		String title = getTextInput(Constants.ENTER_TITLE, Constants.NOT_VALID_BOOK_TITLE);
 		if (title == null) {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return null;
@@ -408,7 +406,7 @@ public class ConsoleView implements View {
 	 */
 	@Override
 	public String getReader() throws IOException, ReaderException {
-		String name = getTextInputInfo(Constants.ENTER_READER, Constants.NOT_VALID_READER_NAME);
+		String name = getTextInput(Constants.ENTER_READER, Constants.NOT_VALID_READER_NAME);
 		if (name == null) {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return null;
@@ -417,10 +415,9 @@ public class ConsoleView implements View {
 	}
 
 	/**
-	 * This method asks the user to enter information with inviting message stored
-	 * in @param infoMessege. If user input is valid text,its content is returned.
-	 * Otherwise the same procedure is repeated until try number is less than
-	 * MAX_INVALID_INPUT_TRIES constant.
+	 * This method asks the user to enter information with inviting message. If user
+	 * input is valid text,its content is returned. Otherwise the same procedure is
+	 * repeated until try number is less than MAX_INVALID_INPUT_TRIES constant.
 	 * 
 	 * @param infoMessege       is the inviting text messages which tells the user
 	 *                          what kind of information is needed.
@@ -428,14 +425,14 @@ public class ConsoleView implements View {
 	 *                          input is not valid
 	 * @return string containing the user input or null
 	 */
-	public String getTextInputInfo(String infoMessege, String ifNotValidMessage) throws IOException {
+	public String getTextInput(String infoMessege, String ifNotValidMessage) throws IOException {
 		String input;
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		int invalidTryNumber = 0;
 		boolean isValidInput = false;
 		do {
 			if (invalidTryNumber > 0) {
-				printMessage(getResource(ifNotValidMessage) + TRY_AGAIN_MESSAGE);
+				System.out.println(getResource(ifNotValidMessage) + TRY_AGAIN_MESSAGE);
 			} else {
 				printResource(infoMessege);
 			}
@@ -461,19 +458,11 @@ public class ConsoleView implements View {
 	 * 
 	 * @param propertyName is name of message in the properties file
 	 */
-	@Override
 	public void printResource(String propertyName) {
 		System.out.println(getResource(propertyName));
 	}
 
-	/**
-	 * This method prints message string to the string and do not print new line
-	 * after that.
-	 */
-	@Override
-	public void printMessage(String message) {
-		System.out.print(message);
-	}
+
 
 	/**
 	 * This method prints library books to console main.java.view.
@@ -490,11 +479,14 @@ public class ConsoleView implements View {
 			printResource(errorMessage);
 			return;
 		}
-		printMessage(infoMessage + "\n\n");
+		System.out.println(infoMessage + "\n\n");
 		for (Book b : books) {
-			printMessage(b.toString() + '\n');
+			System.out.println(b.toString() + '\n');
 		}
 	}
+	
+	
+	
 
 	/**
 	 * Prints list of readers from which user can choose.
@@ -593,6 +585,7 @@ public class ConsoleView implements View {
 		printResource(Constants.ENTER_USERNAME);
 		Scanner sc = new Scanner(System.in);
 		char[] a = sc.next().toCharArray();
+		sc.close();
 		return a;
 	}
 
@@ -601,6 +594,7 @@ public class ConsoleView implements View {
 		printResource(Constants.ENTER_PASSWORD);
 		Scanner sc = new Scanner(System.in);
 		char[] a = sc.next().toCharArray();
+		sc.close();
 		return a;
 	}
 
@@ -614,41 +608,12 @@ public class ConsoleView implements View {
 		printResource(infoMessage);
 		System.out.println();
 		for (LibraryBook b : books) {
-			printMessage(b.toString() + HAS_AVAILABLE_COPIES + b.getCopies() + "\n\n");
+			System.out.println(b.toString() + getResource(Constants.HAS_AVAILABLE_COPIES) + b.getCopies() + "\n");
 		}
 	}
 
-	private void initResourceBundle() throws IOException {
+   private String getResource(String key) {
+	   return languageResouces.getResource(key);
+   }
 
-		StringBuilder filePath = new StringBuilder(RESOURCE_BUNDLE_BASE_PATH);
-		if (currentLanguage.equals(Constants.BG_LANGUAGE)) {
-			filePath.append(BG_LANGUAGE_INITIALS);
-		} else {
-			filePath.append(EN_LANGUAGE_INITIALS);
-		}
-		filePath.append(Constants.PROPERTIES_FILE_EXTENSION);
-
-		InputStream fileInput = new FileInputStream(new File(filePath.toString()));
-
-		languageResources = new PropertyResourceBundle(
-				new InputStreamReader(fileInput, Charset.forName(Constants.UTF_8_ENCODING)));
-	}
-
-	/**
-	 * Changes the application main.java.view's language.
-	 * 
-	 * @throws IOException
-	 */
-	public void changeLanguage() throws IOException {
-		currentLanguage = (currentLanguage.equals(Constants.BG_LANGUAGE)) ? Constants.EN_LANGUAGE
-				: Constants.BG_LANGUAGE;
-		initResourceBundle();
-	}
-
-	public String getResource(String propertyName) {
-		if (!propertyName.equals(Constants.EMPTY_MESSAGE)) {
-			return languageResources.getString(propertyName);
-		}
-		return propertyName;
-	}
 }

@@ -13,7 +13,6 @@ import java.io.Serializable;
 
 public class LibraryBook extends Book implements Serializable  {
 
-	private final static String COPIES_NUMBER_MESSEGE = "\n\t Available copies:";
 
 	private Integer copies;
 

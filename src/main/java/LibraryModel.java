@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.exceptions.ReaderException;
+
 import java.beans.PropertyVetoException;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,9 +16,7 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
-import org.xml.sax.SAXException;
-
-import main.java.exceptions.ReaderException;
+import jdk.internal.org.xml.sax.SAXException;
 import main.java.exceptions.BookException;
 import main.java.persistency.DBPersistency;
 import main.java.persistency.Persistency;
@@ -37,8 +37,12 @@ import main.java.persistency.XmlDOMPersistency;
  */
 public class LibraryModel implements Serializable {
 
-	public static final String DATABASE_PROPERTIES_FILEPATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\databaseProperties.properties";
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
+	public static final String DATABASE_PROPERTIES_FILEPATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\databaseProperties.properties";
 
 	/**
 	 * Catalog containing all the books in library.
@@ -78,12 +82,13 @@ public class LibraryModel implements Serializable {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws TransformerConfigurationException
+	 * @throws                                      org.xml.sax.SAXException
 	 * @throws Exception
 	 */
 	public LibraryModel(String propertyFileName)
 			throws TransformerFactoryConfigurationError, TransformerConfigurationException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, ParserConfigurationException, IOException,
-			TransformerException, SAXException, SQLException, PropertyVetoException {
+			TransformerException, SAXException, SQLException, PropertyVetoException, org.xml.sax.SAXException {
 		bookCatalogue = new Catalogue();
 		readers = new Readers();
 		initProperties(propertyFileName);
@@ -101,9 +106,11 @@ public class LibraryModel implements Serializable {
 	 * @throws TransformerConfigurationException
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
+	 * @throws                                      org.xml.sax.SAXException
 	 */
-	private void initProperties(String propertyFileName) throws IOException, TransformerException, SAXException,
-			SQLException, ClassNotFoundException, TransformerFactoryConfigurationError, ParserConfigurationException {
+	private void initProperties(String propertyFileName)
+			throws IOException, TransformerException, SAXException, SQLException, ClassNotFoundException,
+			TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
 
 		libraryProperties = new Properties();
 		FileInputStream fileInput = new FileInputStream(propertyFileName);
@@ -155,7 +162,7 @@ public class LibraryModel implements Serializable {
 	}
 
 	/**
-	 * This method searches for books by title. 
+	 * This method searches for books by title.
 	 * 
 	 * @param bookTitle is title which is searched
 	 * 
@@ -163,7 +170,7 @@ public class LibraryModel implements Serializable {
 	 * 
 	 * @throws IOException
 	 */
-	public Set<Book> searchBookByTitle(String bookTitle) throws IOException{
+	public Set<Book> searchBookByTitle(String bookTitle) throws IOException {
 		return bookCatalogue.searchByTitle(bookTitle);
 	}
 
@@ -172,19 +179,13 @@ public class LibraryModel implements Serializable {
 	 * and has got any taken books, a set containing the taken books is returned.
 	 * Otherwise MissingReadersException is thrown.
 	 * 
-	 * @param readerName is the name of the reader whos books are wanted
+	 * @param readerName is the name of the reader who`s books are wanted
 	 * @return set of books taken by this reader
 	 * @throws ReaderException
 	 */
 	public Set<Book> getBooksOfReader(String readerName) throws ReaderException {
-		Set<Reader> readersToChoose = readers.getReaders();
-
-		if (readersToChoose.isEmpty()) {
-			throw new ReaderException(Constants.NOT_READERS);
-		}
-
-		Reader reader = new Reader(readerName);
-		if (!readers.contains(reader)) {
+		Reader reader = readers.getReaderFromSet(readerName);
+		if (reader == null) {
 			throw new ReaderException(Constants.NOT_REGISTERED_READER);
 		}
 		return reader.getReaderBooks();
@@ -255,12 +256,13 @@ public class LibraryModel implements Serializable {
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws TransformerException
 	 * @throws TransformerConfigurationException
+	 * @throws                                      org.xml.sax.SAXException
 	 * @throws Exception
 	 */
 	public void giveBookToReader(String authorName, String title, String readerName)
 			throws ReaderException, BookException, TransformerConfigurationException, TransformerException,
 			TransformerFactoryConfigurationError, ParserConfigurationException, SAXException, IOException, SQLException,
-			PropertyVetoException {
+			PropertyVetoException, org.xml.sax.SAXException {
 		Book bookToAdd = new Book(authorName, title);
 		Reader reader = new Reader(readerName);
 		persistency.giveBookToReader(reader, bookToAdd);
@@ -279,7 +281,7 @@ public class LibraryModel implements Serializable {
 	 * @throws SQLException
 	 * @throws TransformerFactoryConfigurationError
 	 */
-	public void returnBook(String authorName,String title, String readerName)
+	public void returnBook(String authorName, String title, String readerName)
 			throws TransformerFactoryConfigurationError, SQLException, PropertyVetoException, IOException, Exception {
 		Book bookToReturn = new Book(authorName, title);
 		Reader returningReader = new Reader(readerName);
@@ -323,8 +325,7 @@ public class LibraryModel implements Serializable {
 	public Set<Reader> getReaders() {
 		return readers.getReaders();
 	}
-	
-	
+
 	public static boolean checkInputTextValidity(String input) {
 		return input.matches(Constants.VALID_NAMETEXT_REGEX) && !input.equals("");
 	}

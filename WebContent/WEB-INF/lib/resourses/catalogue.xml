@@ -3,11 +3,26 @@
   <book>
     <title>kaka</title>
     <author>is</author>
-    <copies>1</copies>
+    <copies>0</copies>
   </book>
   <book>
     <title>kss</title>
     <author>kskw</author>
     <copies>1</copies>
+  </book>
+  <book>
+    <title>hell</title>
+    <author>dan brown</author>
+    <copies>2</copies>
+  </book>
+  <book>
+    <title>inferno</title>
+    <author>dan brown</author>
+    <copies>3</copies>
+  </book>
+  <book>
+    <title>test</title>
+    <author>alabala</author>
+    <copies>2</copies>
   </book>
 </books>
