@@ -27,12 +27,13 @@ import main.java.exceptions.BookException;
 /**
  * Servlet implementation class WebView
  */
-@WebServlet(urlPatterns = { WebView.SHOW_ALL_BOOKS_URL, WebView.SHOW_AVAILABLE_BOOKS_URL })
+@WebServlet(urlPatterns = { WebView.SHOW_ALL_BOOKS_URL, WebView.SHOW_AVAILABLE_BOOKS_URL,WebView.GIVE_BOOK_TO_READER_URL})
 public class WebView extends HttpServlet {
 	private static final String SORTING_ORDER_REQ_PARAM = "sortingOrder";
 	private static final String SORT_BY_TITLE_JSON_STR = "\"byTitle\"";
 	public static final String SHOW_ALL_BOOKS_URL = "/allBooks";
 	public static final String SHOW_AVAILABLE_BOOKS_URL = "/availableBooks";
+	public static final String GIVE_BOOK_TO_READER_URL="/giveBook";
 	private static final long serialVersionUID = 1L;
 
 	private LibraryModel libraryDataController;
@@ -80,13 +81,21 @@ public class WebView extends HttpServlet {
 		}
 
 		if (request.getRequestURI().equals(request.getContextPath() + SHOW_AVAILABLE_BOOKS_URL)) {
-            Set<LibraryBook>availableBooks=libraryDataController.getAvailableBooks();
-            String json = new Gson().toJson(availableBooks);
-    		response.setContentType("application/json");
-    		response.setCharacterEncoding(Constants.UTF_8_ENCODING);
-    		response.getWriter().write(json);
+            printAvailableBooks(response);
 		}
+		if(request.getRequestURI().equals(request.getContextPath() + GIVE_BOOK_TO_READER_URL)) {
+			System.out.println(request.getParameter("readerName"));
+		}
+		
 
+	}
+
+	private void printAvailableBooks(HttpServletResponse response) throws IOException {
+		Set<LibraryBook>availableBooks=libraryDataController.getAvailableBooks();
+		String json = new Gson().toJson(availableBooks);
+		response.setContentType("application/json");
+		response.setCharacterEncoding(Constants.UTF_8_ENCODING);
+		response.getWriter().write(json);
 	}
 
 	private void printBooks(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -30,7 +30,7 @@
 	<form id="chooseSortingOrder">
 	<input type="radio" name="sortingOrder"value="byTitle">
 
-	<!-- ((ResourseManager) request.getAttribute("languageResources")) -->
+
 	<%=languageResources.getResource(Constants.SORTED_BY_TITLE)%>
 	<input type="radio" name="sortingOrder" value="byAuthor">
 	</form>
