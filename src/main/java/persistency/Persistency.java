@@ -12,7 +12,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.xml.sax.SAXException;
 
 import main.java.Book;
-import main.java.Catalogue;
+import main.java.Catalog;
 import main.java.Reader;
 import main.java.Readers;
 
@@ -39,7 +39,7 @@ public interface Persistency {
 	 * @throws IOException 
 	 * @throws SAXException 
 	 */
-	public Catalogue loadBookCatalogue() throws SQLException, ParserConfigurationException, SAXException, IOException;
+	public Catalog loadBookCatalogue() throws SQLException, ParserConfigurationException, SAXException, IOException;
 
 	/**
 	 * Adds new reader to persistence if it is not already there.

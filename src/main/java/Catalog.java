@@ -13,30 +13,30 @@ import java.util.stream.Collectors;
  * This class holds a set containing the books in the library.It contains
  * methods for adding books, giving book to reader,storing books to a persistent
  * storage and loading books from it.Plus it can sort books and search for
- * certain book in the catalogue by title and also author name.
+ * certain book in the catalog by title and also author name.
  * 
  * @author I356406
  *
  */
 
-public class Catalogue implements Serializable {
+public class Catalog implements Serializable {
 
 	private HashSet<LibraryBook> libraryBooks;
 
 	/**
-	 * Creates new empty book catalogue.
+	 * Creates new empty book catalog.
 	 */
-	public Catalogue() {
+	public Catalog() {
 		libraryBooks = new HashSet<LibraryBook>();
 	}
 
 	/**
-	 * Creates new catalogue which contains the books in the set passed as argument.
+	 * Creates new catalog which contains the books in the set passed as argument.
 	 * 
 	 * @param libraryBooks is hash set which contains the book which will be added
-	 *                     to catalogue.
+	 *                     to catalog.
 	 */
-	public Catalogue(HashSet<LibraryBook> libraryBooks) {
+	public Catalog(HashSet<LibraryBook> libraryBooks) {
 		this.libraryBooks = libraryBooks;
 	}
 
@@ -155,6 +155,17 @@ public class Catalogue implements Serializable {
 			searched.setCopies(searched.getCopies() + Constants.STANDARD_COPY_EXTRACT_NUM);
 		}
 	}
+	
+	/**
+	 * Check if catalog contains any available books.
+	 * @return
+	 */
+	public boolean hasAvailableBooks() {
+		if(getAvailableBooks().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * This method checks if the @param searchedStr is the same or is a substring of
@@ -168,4 +179,6 @@ public class Catalogue implements Serializable {
 				|| possibleMatch.toLowerCase().contains(searchedStr.toLowerCase());
 	}
 
+	
+	
 }

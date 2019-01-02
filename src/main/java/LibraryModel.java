@@ -42,12 +42,10 @@ public class LibraryModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final String DATABASE_PROPERTIES_FILEPATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\databaseProperties.properties";
-
 	/**
 	 * Catalog containing all the books in library.
 	 */
-	private Catalogue bookCatalogue;
+	private Catalog bookCatalogue;
 
 	/**
 	 * Persistence is responsible for storing and managing information. This can be
@@ -89,7 +87,7 @@ public class LibraryModel implements Serializable {
 			throws TransformerFactoryConfigurationError, TransformerConfigurationException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, ParserConfigurationException, IOException,
 			TransformerException, SAXException, SQLException, PropertyVetoException, org.xml.sax.SAXException {
-		bookCatalogue = new Catalogue();
+		bookCatalogue = new Catalog();
 		readers = new Readers();
 		initProperties(propertyFileName);
 	}
@@ -214,14 +212,14 @@ public class LibraryModel implements Serializable {
 	}
 
 	/**
-	 * This method sorts the library books in a specific order and returns sorted
-	 * list of library books.
+	 * This method sorts library books in a specific order and returns sorted list
+	 * of library books.
 	 * 
-	 * @param sortingOrder indicates the order.Its value can be any valid sorting
-	 *                     order constant.
+	 * @param sortingOrder indicates the order.
+	 * 
 	 * 
 	 * @throws IOException
-	 * @throws BookException is thrown when there are not any books to be sorted.
+	 * @throws BookException is thrown when there are not any books.
 	 * 
 	 */
 	public List<LibraryBook> getBooksSorted(int sortingOrder) throws IOException, BookException {
@@ -257,6 +255,7 @@ public class LibraryModel implements Serializable {
 	 * @throws TransformerException
 	 * @throws TransformerConfigurationException
 	 * @throws                                      org.xml.sax.SAXException
+	 * @throws                                      org.xml.sax.SAXException
 	 * @throws Exception
 	 */
 	public void giveBookToReader(String authorName, String title, String readerName)
@@ -266,7 +265,7 @@ public class LibraryModel implements Serializable {
 		Book bookToAdd = new Book(authorName, title);
 		Reader reader = new Reader(readerName);
 		persistency.giveBookToReader(reader, bookToAdd);
-		reader.addBook(bookToAdd);
+		readers.getReaderFromSet(readerName).addBook(bookToAdd);
 		bookCatalogue.removeBook(bookToAdd);
 	}
 
@@ -319,11 +318,21 @@ public class LibraryModel implements Serializable {
 	}
 
 	public boolean checkForBook(Book toCheck) {
-		return bookCatalogue.checkForBook(toCheck) != null;
+		if (bookCatalogue.checkForBook(toCheck) != null) {
+			return true;
+		}
+		return false;
 	}
 
 	public Set<Reader> getReaders() {
 		return readers.getReaders();
+	}
+
+	public boolean hasAnyAvailableBooks() {
+		if (bookCatalogue.hasAvailableBooks()) {
+			return true;
+		}
+		return false;
 	}
 
 	public static boolean checkInputTextValidity(String input) {

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import main.java.Book;
 import main.java.ConnectionPool;
-import main.java.Catalogue;
+import main.java.Catalog;
 import main.java.Constants;
 import main.java.LibraryBook;
 import main.java.LibraryModel;
@@ -70,7 +70,7 @@ public class DBPersistency implements Persistency {
 
 		connectionPool = new ConnectionPool(INITIAL_CONNECTIONS_SIZE, true, username, password);
 		Properties databaseProperties = new Properties();
-		FileInputStream fileInput = new FileInputStream(LibraryModel.DATABASE_PROPERTIES_FILEPATH);
+		FileInputStream fileInput = new FileInputStream(Constants.DATABASE_PROPERTIES_FILEPATH);
 		databaseProperties.load(fileInput);
 		takenBooksTable = databaseProperties.getProperty(RELATIONSHIP_TABLE);
 		readersTable = databaseProperties.getProperty(READERS_TABLE);
@@ -184,8 +184,8 @@ public class DBPersistency implements Persistency {
 	 * @throws SQLException
 	 */
 	@Override
-	public Catalogue loadBookCatalogue() throws SQLException {
-		Catalogue toLoad = new Catalogue();
+	public Catalog loadBookCatalogue() throws SQLException {
+		Catalog toLoad = new Catalog();
 		StringBuilder selectAllBooks = new StringBuilder(SELECT_ALL + FROM + booksTable);
 		Connection connection = null;
 		PreparedStatement statement = null;

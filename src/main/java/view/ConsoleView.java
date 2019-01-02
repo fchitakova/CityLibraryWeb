@@ -122,19 +122,20 @@ public class ConsoleView implements View {
 
 		case Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE_ID: {
 			List<LibraryBook> sortedBooks = libraryDataController.getBooksSorted(Constants.SORT_BY_TITLE_ID);
-			printBooks(sortedBooks, Constants.PRINT_ALL_BOOKS, Constants.NOT_ANY_BOOKS);
+			String sortingInfoMessage = languageResouces.getResource(Constants.PRINT_ALL_BOOKS);
+			printBooks(sortedBooks, sortingInfoMessage, Constants.NOT_ANY_BOOKS);
 			break;
 		}
 
 		case Constants.SEE_ALL_BOOKS_SORTED_BY_AUTHOR_ID: {
 			List<LibraryBook> sortedBooks = libraryDataController.getBooksSorted(Constants.SORT_BY_AUTHOR_ID);
-			printBooks(sortedBooks, Constants.PRINT_ALL_BOOKS, Constants.NOT_ANY_BOOKS);
+			String sortingInfoMessage = languageResouces.getResource(Constants.PRINT_ALL_BOOKS);
+			printBooks(sortedBooks, sortingInfoMessage, Constants.NOT_ANY_BOOKS);
 			break;
 		}
 
 		case Constants.SEE_AVAILABLE_BOOKS_ID: {
-			printAvailableBooks(libraryDataController.getAvailableBooks(), Constants.PRINT_AVAILABLE_BOOKS,
-					Constants.NOT_ANY_BOOKS);
+			printAvailableBooks(getAvailableLibraryBooks(), Constants.PRINT_AVAILABLE_BOOKS, Constants.NOT_ANY_BOOKS);
 			break;
 
 		}
@@ -197,7 +198,8 @@ public class ConsoleView implements View {
 
 			String chosenReaderName = chooseReader();
 			if (chosenReaderName != null) {
-				String infoMessage = languageResouces.getResource(Constants.TAKEN_BOOKS_BY_READER) + chosenReaderName + ":";
+				String infoMessage = languageResouces.getResource(Constants.TAKEN_BOOKS_BY_READER) + chosenReaderName
+						+ ":";
 				Set<Book> readerBooks = libraryDataController.getBooksOfReader(chosenReaderName);
 				printBooks(readerBooks, infoMessage, Constants.NOT_ANY_TAKEN_BOOKS);
 			}
@@ -245,8 +247,7 @@ public class ConsoleView implements View {
 		}
 		Set<Book> books = libraryDataController.searchBooksByAuthor(author);
 
-		printBooks(books, Constants.PRINT_BOOKS_BY_AUTHOR,
-				Constants.NOT_ANY_BOOKS_FROM_THIS_AUTHOR);
+		printBooks(books, Constants.PRINT_BOOKS_BY_AUTHOR, Constants.NOT_ANY_BOOKS_FROM_THIS_AUTHOR);
 	}
 
 	public void searchByTitle() throws IOException {
@@ -257,8 +258,7 @@ public class ConsoleView implements View {
 		}
 		Set<Book> books = libraryDataController.searchBookByTitle(title);
 
-		printBooks(books, Constants.PRINT_BOOKS_BY_TITLE,
-				Constants.NOT_ANY_BOOKS_WITH_TITLE);
+		printBooks(books, Constants.PRINT_BOOKS_BY_TITLE, Constants.NOT_ANY_BOOKS_WITH_TITLE);
 	}
 
 	public void registerReader() throws IOException, ReaderException, Exception {
@@ -275,28 +275,25 @@ public class ConsoleView implements View {
 
 	public void returnBook()
 			throws IOException, TransformerFactoryConfigurationError, SQLException, PropertyVetoException, Exception {
-		String readerName;
-		try {
-			readerName = getReader();
-		} catch (ReaderException re) {
-			printResource(re.getMessage());
+		String readerName = getReader();
+
+		if (checkReaderValidity(readerName)) {
 			return;
 		}
 
 		Reader returningReader = libraryDataController.getSpecificReader(readerName);
-		if (returningReader == null) {
-			printResource(Constants.NOT_REGISTERED_READER);
-		}
-
-		Set<Book> booksToChoose = returningReader.getReaderBooks();
-		if (booksToChoose.isEmpty()) {
-			printResource(Constants.NOT_ANY_BOOKS);
+		if (returningReader.hasAnyTakenBooks() == false) {
+			printResource(Constants.NOT_ANY_TAKEN_BOOKS);
 			return;
 		}
 
-		String[] book = chooseFromBooks(booksToChoose);
+		Set<Book> booksToChoose = returningReader.getReaderBooks();
+		String[] bookInfo = chooseFromBooks(booksToChoose);
+		if (bookInfo == null) {
+			return;
+		}
 
-		libraryDataController.returnBook(book[0], book[1], readerName);
+		libraryDataController.returnBook(bookInfo[0], bookInfo[1], readerName);
 
 	}
 
@@ -304,33 +301,56 @@ public class ConsoleView implements View {
 			throws IOException, ReaderException, BookException, TransformerConfigurationException, TransformerException,
 			TransformerFactoryConfigurationError, ParserConfigurationException, SAXException, SQLException,
 			PropertyVetoException, jdk.internal.org.xml.sax.SAXException {
-		String readerName;
-		try {
-			readerName = getReader();
-		} catch (ReaderException re) {
-			String exceptionMessage = re.getMessage();
-			printResource(exceptionMessage);
+
+		String readerName = getReader();
+
+		if (checkReaderValidity(readerName) == false || checkForAvailableBooks() == false) {
 			return;
 		}
 
+		Set<LibraryBook> booksToChoose = getAvailableLibraryBooks();
+		String[] bookInfo = chooseFromBooks(booksToChoose);
+		if (bookInfo == null) {
+			return;
+		}
+		libraryDataController.giveBookToReader(bookInfo[0], bookInfo[1], readerName);
+		printResource(Constants.SUCCESSFULLY_GIVEN_BOOK);
+	}
+
+	private Set<LibraryBook> getAvailableLibraryBooks() {
+		return libraryDataController.getAvailableBooks();
+	}
+
+	/**
+	 * Checks whether the library catalog contains available books.
+	 * 
+	 * @return
+	 */
+	private boolean checkForAvailableBooks() {
+		if (libraryDataController.hasAnyAvailableBooks() == false) {
+			printResource(Constants.NOT_ANY_BOOKS);
+			return false;
+		}
+		return true;
+
+	}
+
+	/**
+	 * This method checks if the provided reader name is valid and reader with this
+	 * name is registered.
+	 * 
+	 * @return true if the above conditions are met.
+	 */
+	private boolean checkReaderValidity(String readerName) {
+		if (readerName == null) {
+			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
+			return false;
+		}
 		if (libraryDataController.getSpecificReader(readerName) == null) {
 			printResource(Constants.NOT_REGISTERED_READER);
-			return;
+			return false;
 		}
-
-		Set<LibraryBook> booksToChoose = libraryDataController.getAvailableBooks();
-		if (booksToChoose.isEmpty()) {
-			printResource(Constants.NOT_ANY_BOOKS);
-			return;
-		}
-
-		String[] bookInfo = chooseFromBooks(booksToChoose);
-		if (bookInfo[0] == null || bookInfo[1] == null) {
-			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
-			return;
-		}
-
-		libraryDataController.giveBookToReader(bookInfo[0], bookInfo[1], readerName);
+		return true;
 	}
 
 	/**
@@ -342,9 +362,11 @@ public class ConsoleView implements View {
 		System.out.print(getResource(Constants.TITLE) + "\n\n\n");
 		printResource(Constants.PRESS);
 		System.out.print(Constants.SEE_ALL_BOOKS_SORTED_BY_TITLE_ID + Constants.DELIMITER);
-		System.out.println(languageResouces.getResource(Constants.SEE_ALL_BOOKS)+" "+languageResouces.getResource(Constants.SORTED_BY_TITLE));
+		System.out.println(languageResouces.getResource(Constants.SEE_ALL_BOOKS) + " "
+				+ languageResouces.getResource(Constants.SORTED_BY_TITLE));
 		System.out.print(Constants.SEE_ALL_BOOKS_SORTED_BY_AUTHOR_ID + Constants.DELIMITER);
-		System.out.println(languageResouces.getResource(Constants.SEE_ALL_BOOKS)+" "+languageResouces.getResource(Constants.SORTED_BY_AUTHOR));
+		System.out.println(languageResouces.getResource(Constants.SEE_ALL_BOOKS) + " "
+				+ languageResouces.getResource(Constants.SORTED_BY_AUTHOR));
 		System.out.print(Constants.SEE_AVAILABLE_BOOKS_ID + Constants.DELIMITER);
 		printResource(Constants.SEE_AVAILABLE_BOOKS);
 		System.out.print(Constants.GIVE_BOOK_TO_READER_ID + Constants.DELIMITER);
@@ -401,22 +423,16 @@ public class ConsoleView implements View {
 	 * 
 	 * @return String or null
 	 * @throws IOException
-	 * @throws ReaderException indicates that too many invalid attempts for input
-	 *                         are failed.
 	 */
 	@Override
-	public String getReader() throws IOException, ReaderException {
+	public String getReader() throws IOException {
 		String name = getTextInput(Constants.ENTER_READER, Constants.NOT_VALID_READER_NAME);
-		if (name == null) {
-			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
-			return null;
-		}
 		return name;
 	}
 
 	/**
-	 * This method asks the user to enter information with inviting message. If user
-	 * input is valid text,its content is returned. Otherwise the same procedure is
+	 * This method asks the user to enter information using inviting message. If
+	 * user input is valid text it is returned. Otherwise the same procedure is
 	 * repeated until try number is less than MAX_INVALID_INPUT_TRIES constant.
 	 * 
 	 * @param infoMessege       is the inviting text messages which tells the user
@@ -462,8 +478,6 @@ public class ConsoleView implements View {
 		System.out.println(getResource(propertyName));
 	}
 
-
-
 	/**
 	 * This method prints library books to console main.java.view.
 	 * 
@@ -484,9 +498,6 @@ public class ConsoleView implements View {
 			System.out.println(b.toString() + '\n');
 		}
 	}
-	
-	
-	
 
 	/**
 	 * Prints list of readers from which user can choose.
@@ -535,6 +546,7 @@ public class ConsoleView implements View {
 		}
 		int choice = getChoice(Constants.CHOICE_MENU_LOWER_BOUND, books.size());
 		if (choice == Constants.INVALID_CHOICE_NUMBER) {
+			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return null;
 		}
 		return new String[] { booksMap.get(choice).getAuthor(), booksMap.get(choice).getTitle() };
@@ -600,7 +612,7 @@ public class ConsoleView implements View {
 
 	@Override
 	public void printAvailableBooks(String infoMessage, String errorMessage) {
-		Set<LibraryBook> books = libraryDataController.getAvailableBooks();
+		Set<LibraryBook> books = getAvailableLibraryBooks();
 		if (books.isEmpty()) {
 			printResource(errorMessage);
 			return;
@@ -612,8 +624,8 @@ public class ConsoleView implements View {
 		}
 	}
 
-   private String getResource(String key) {
-	   return languageResouces.getResource(key);
-   }
+	private String getResource(String key) {
+		return languageResouces.getResource(key);
+	}
 
 }

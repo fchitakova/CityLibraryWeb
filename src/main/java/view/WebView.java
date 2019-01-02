@@ -4,6 +4,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,9 +27,12 @@ import main.java.exceptions.BookException;
 /**
  * Servlet implementation class WebView
  */
-@WebServlet(urlPatterns = { "/allBooks" })
+@WebServlet(urlPatterns = { WebView.SHOW_ALL_BOOKS_URL, WebView.SHOW_AVAILABLE_BOOKS_URL })
 public class WebView extends HttpServlet {
-	private static final String SHOW_ALL_BOOKS_URL = "/allBooks";
+	private static final String SORTING_ORDER_REQ_PARAM = "sortingOrder";
+	private static final String SORT_BY_TITLE_JSON_STR = "\"byTitle\"";
+	public static final String SHOW_ALL_BOOKS_URL = "/allBooks";
+	public static final String SHOW_AVAILABLE_BOOKS_URL = "/availableBooks";
 	private static final long serialVersionUID = 1L;
 
 	private LibraryModel libraryDataController;
@@ -52,8 +56,7 @@ public class WebView extends HttpServlet {
 			ClassNotFoundException, TransformerFactoryConfigurationError, ParserConfigurationException, IOException,
 			TransformerException, SAXException, SQLException, PropertyVetoException, org.xml.sax.SAXException {
 		super();
-		libraryDataController = new LibraryModel(
-				"C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\library.properties");
+		libraryDataController = new LibraryModel(Constants.LIBRARY_PROPERTIES_FILE_PATH);
 	}
 
 	/**
@@ -62,8 +65,6 @@ public class WebView extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
 		doPost(request, response);
 	}
 
@@ -75,24 +76,41 @@ public class WebView extends HttpServlet {
 			throws ServletException, IOException {
 
 		if (request.getRequestURI().equals(request.getContextPath() + SHOW_ALL_BOOKS_URL)) {
-			System.out.println(request.getParameter("sortingOrder"));
-
-			List<LibraryBook> sortedBooks = null;
-			
-			//if()
-			
-			try {
-				sortedBooks = libraryDataController.getBooksSorted(Constants.SORT_BY_TITLE_ID);
-			} catch (NullPointerException | BookException e) {
-
-			}
-			
-			String json = new Gson().toJson(sortedBooks);
-			System.out.println(json);
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(json);
+			printBooks(request, response);
 		}
 
+		if (request.getRequestURI().equals(request.getContextPath() + SHOW_AVAILABLE_BOOKS_URL)) {
+            Set<LibraryBook>availableBooks=libraryDataController.getAvailableBooks();
+            String json = new Gson().toJson(availableBooks);
+    		response.setContentType("application/json");
+    		response.setCharacterEncoding(Constants.UTF_8_ENCODING);
+    		response.getWriter().write(json);
+		}
+
+	}
+
+	private void printBooks(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String sortingOrderRequestParam = request.getParameter(SORTING_ORDER_REQ_PARAM);
+
+		int sortingOrderChoice = Constants.INVALID_CHOICE_NUMBER;
+		List<LibraryBook> sortedBooks = null;
+
+		if (sortingOrderRequestParam.equals(SORT_BY_TITLE_JSON_STR)) {
+			sortingOrderChoice = Constants.SORT_BY_TITLE_ID;
+
+		} else {
+			sortingOrderChoice = Constants.SORT_BY_AUTHOR_ID;
+		}
+
+		try {
+			sortedBooks = libraryDataController.getBooksSorted(sortingOrderChoice);
+		} catch (NullPointerException | BookException e) {
+
+		}
+
+		String json = new Gson().toJson(sortedBooks);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(json);
 	}
 }

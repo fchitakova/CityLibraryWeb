@@ -12,7 +12,7 @@ import main.java.Constants;
 
 public class ResourseManager {
 
-	public static final String RESOURCE_BUNDLE_BASE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\languageResources_";
+	public static final String RESOURCE_BUNDLE_BASE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\languageResources_";
 	public static final String BG_LANGUAGE_INITIALS = "bg_BG";
 	public static final String EN_LANGUAGE_INITIALS = "en";
 

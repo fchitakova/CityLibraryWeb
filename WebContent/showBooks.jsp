@@ -1,24 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="main.java.view.*"%>
 <%@page import="main.java.Constants"%>
+<%@page import="main.java.view.ResourseManager"%>
 
 <!DOCTYPE html>
 
 <%
-	ResourseManager languageResources = new ResourseManager();
-	session.setAttribute("languageResources", languageResources);
+  
+	ResourseManager languageResources = ((ResourseManager) session.getAttribute("languageResources"));
 %>
 
 
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<!--  <link href="<c:url value="myCss.css" />" rel="stylesheet"> -->
+
 
 <title>
-
-      
+      <%=languageResources.getResource(Constants.ALL_BOOKS_LABEL)%>
 </title>
 </head>
 
@@ -33,10 +32,11 @@
 
 	<!-- ((ResourseManager) request.getAttribute("languageResources")) -->
 	<%=languageResources.getResource(Constants.SORTED_BY_TITLE)%>
-	<input type="radio" name="sortingOrder" value="ByAuthor">
+	<input type="radio" name="sortingOrder" value="byAuthor">
 	</form>
 	<%=languageResources.getResource(Constants.SORTED_BY_AUTHOR)%>
 	<button id='showBooksButton'>Choose</button>
+	
 
 	<div id="showBooks"></div>
 
@@ -53,8 +53,12 @@
 													    dataType: "json",
 														type : "POST",
 														success : function(responseJson) {
+															$('#showBooks').html("");
+
 														if ($.trim(responseJson)){ 
-																alert("yes");
+															$("<h2>").appendTo($("#showBooks"))
+															         .append("<%=languageResources.getResource(Constants.PRINT_ALL_BOOKS)%>");
+															
 															var $table = $("<table>").appendTo($("#showBooks"));
 															 $.each(responseJson, function(index, sortedBooks) { 
 														            $("<tr>").appendTo($table)                    

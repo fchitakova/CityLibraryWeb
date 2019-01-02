@@ -12,9 +12,15 @@ public final class Constants {
 	}
 
 	public static final String EMPTY_MESSAGE="";
+	public static final String ALL_BOOKS_LABEL="ALL_BOOKS_LABEL";
 	public static final String SEE_ALL_BOOKS="SEE_ALL_BOOKS";
+	public static final String AVAILABLE_BOOKS_LABEL="AVAILABLE_BOOKS_LABEL";
 	public static final String SORTED_BY_TITLE = "SORTED_BY_TITLE";
 	public static final String SORTED_BY_AUTHOR = "SORTED_BY_AUTHOR";
+	public static final String BOOK_TITLE_LABEL="BOOK_TITLE_LABEL";
+	public static final String BOOK_AUTHOR_LABEL="BOOK_AUTHOR_LABEL";
+	public static final String BOOK_COPIES_LABEL="BOOK_COPIES_LABEL";
+	public static final String CHOOSE_SORTING_ORDER="CHOOSE_SORTING_ORDER";
 	public static final String SEE_AVAILABLE_BOOKS = "SEE_AVAILABLE_BOOKS";
 	public static final String GIVE_BOOK_TO_READER = "GIVE_BOOK_TO_READER";
 	public static final String RETURN_BOOK = "RETURN_BOOK";
@@ -73,9 +79,10 @@ public final class Constants {
 	public static final String INVALID_CHOICE_PROPERTY = "INVALID_CHOICE";
 	public static final String GOODBYE = "GOODBYE";
 	public static final String PROPERTIES_FILE_EXTENSION = ".properties";
-	public static final String BOOKS_XML_FILE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\catalogue.xml";
-	public static final String READERS_XML_FILE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\readers.xml";
-	public static final String LIBRARY_PROPERTIES_FILE = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourseslibrary.properties";
+	public static final String BOOKS_XML_FILE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\catalogue.xml";
+	public static final String READERS_XML_FILE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\readers.xml";
+	public static final String LIBRARY_PROPERTIES_FILE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\library.properties";
+	public static final String DATABASE_PROPERTIES_FILEPATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\databaseProperties.properties";
 	public static final String DATABASE_PROPERTIES_FILE="databasePersistencyPropertiesFile";
 	public static final String UTF_8_ENCODING = "UTF-8";
 	public static final String XML_BOOK_ELEMENT="book";

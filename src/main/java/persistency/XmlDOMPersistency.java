@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.xml.parsers.*;
 
 import main.java.Book;
-import main.java.Catalogue;
+import main.java.Catalog;
 import main.java.Constants;
 import main.java.LibraryBook;
 import main.java.Reader;
@@ -243,8 +243,8 @@ public class XmlDOMPersistency implements Persistency {
 	 * @throws SAXException 
 	 */
 	@Override
-	public Catalogue loadBookCatalogue() throws ParserConfigurationException, SAXException, IOException {
-		Catalogue toLoad = new Catalogue();
+	public Catalog loadBookCatalogue() throws ParserConfigurationException, SAXException, IOException {
+		Catalog toLoad = new Catalog();
 		Element root = catalogueDoc.getDocumentElement();
 		NodeList books = root.getElementsByTagName(Constants.XML_BOOK_ELEMENT);
 		for (int j = 0; j < books.getLength(); ++j) {

@@ -97,6 +97,16 @@ public class Reader implements Serializable {
 	public void returnBook(Book bookToReturn) {
 		readerBooks.remove(bookToReturn);
 	}
+	
+	/**
+	 * Returns true if the reader has at least one taken book.
+	 */
+	public boolean hasAnyTakenBooks() {
+		if(readerBooks.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public int hashCode() {
