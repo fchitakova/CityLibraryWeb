@@ -29,10 +29,10 @@
 			type : "POST",
 			success : function(responseJson) {
 				$('#showAvailableBooks').html("");
-			if ($.trim(responseJson)){ 
-				$("<h2>").appendTo($("#showAvaialbleBooks"))
-				         .append("<%=languageResources.getResource(Constants.PRINT_AVAILABLE_BOOKS)%>");
-			
+			if (responseJson!='null'){ 
+				var $message='<%=languageResources.getResource(Constants.PRINT_AVAILABLE_BOOKS)%>';
+				$("<h1>").appendTo($('#showAvailableBooks')).append($message);
+
 				var $table = $("<table>").appendTo($("#showAvailableBooks"));
 				$("<tr>").appendTo($table)
 				.append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%>"))
@@ -41,24 +41,21 @@
 				 $.each(responseJson, function(index, sortedBooks) { 
 			            $("<tr>").appendTo($table)                    
 			                .append($("<td>").text(sortedBooks.title))       
+			                
 			                .append($("<td>").text(sortedBooks.author)) 
 			                .append($("<td>").text(sortedBooks.copies));
 			        });
 				}
 			
 				else{
-					var infoMessage='<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>';
-					$("#showAvailableBooks").append("<p>");
-					$("#showAvailableBooks").append(infoMessage);
-					$("#showAvailableBooks").append("</p>");
-					}
+					var $infoMessage='<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>';
+					$("<p>").appendTo($("#showAvailableBooks")).append($infoMessage);
 			  
 			}
 			
-		});
-    }
-   
-   );
+		}
+    });
+    });
 </script>
 
 <body>

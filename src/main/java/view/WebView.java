@@ -3,6 +3,7 @@ package main.java.view;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -84,7 +85,16 @@ public class WebView extends HttpServlet {
             printAvailableBooks(response);
 		}
 		if(request.getRequestURI().equals(request.getContextPath() + GIVE_BOOK_TO_READER_URL)) {
+			/*
 			System.out.println(request.getParameter("readerName"));
+			if(this.libraryDataController.checkInputTextValidity(input))
+			*/
+			System.out.println(request.getParameter("getAvaialbleBooks"));
+			String json = new Gson().toJson(new ArrayList<>());
+			System.out.println(json);
+			response.setContentType("application/json");
+			response.setCharacterEncoding(Constants.UTF_8_ENCODING);
+			response.getWriter().write(json);
 		}
 		
 
@@ -103,7 +113,7 @@ public class WebView extends HttpServlet {
 
 		int sortingOrderChoice = Constants.INVALID_CHOICE_NUMBER;
 		List<LibraryBook> sortedBooks = null;
-
+        /*
 		if (sortingOrderRequestParam.equals(SORT_BY_TITLE_JSON_STR)) {
 			sortingOrderChoice = Constants.SORT_BY_TITLE_ID;
 
@@ -116,10 +126,11 @@ public class WebView extends HttpServlet {
 		} catch (NullPointerException | BookException e) {
 
 		}
-
+        */
 		String json = new Gson().toJson(sortedBooks);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
+		System.out.println(json);
 		response.getWriter().write(json);
 	}
 }

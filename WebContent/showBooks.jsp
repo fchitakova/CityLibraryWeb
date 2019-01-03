@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 
 <%
-  
 	ResourseManager languageResources = ((ResourseManager) session.getAttribute("languageResources"));
 %>
 
@@ -16,31 +15,31 @@
 <meta charset="ISO-8859-1">
 
 
-<title>
-      <%=languageResources.getResource(Constants.ALL_BOOKS_LABEL)%>
+<title><%=languageResources.getResource(Constants.ALL_BOOKS_LABEL)%>
 </title>
 </head>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <body>
 
 	<h1>
 		<%=languageResources.getResource(Constants.SEE_ALL_BOOKS)%>
 	</h1>
 	<form id="chooseSortingOrder">
-	<input type="radio" name="sortingOrder"value="byTitle">
+		<input type="radio" name="sortingOrder" value="byTitle">
 
 
-	<%=languageResources.getResource(Constants.SORTED_BY_TITLE)%>
-	<input type="radio" name="sortingOrder" value="byAuthor">
+		<%=languageResources.getResource(Constants.SORTED_BY_TITLE)%>
+		<input type="radio" name="sortingOrder" value="byAuthor">
 	</form>
 	<%=languageResources.getResource(Constants.SORTED_BY_AUTHOR)%>
 	<button id='showBooksButton'>Choose</button>
-	
+
 
 	<div id="showBooks"></div>
 
-<script  type="text/javascript">
+	<script type="text/javascript">
 	$(document).ready(function() {
 						$('#showBooksButton').click(function() {
 							var sortingOrder =$('input[name=sortingOrder]:checked', '#chooseSortingOrder').val();
@@ -54,8 +53,7 @@
 														type : "POST",
 														success : function(responseJson) {
 															$('#showBooks').html("");
-
-														if ($.trim(responseJson)){ 
+														if (responseJson!==null){ 
 															$("<h2>").appendTo($("#showBooks"))
 															         .append("<%=languageResources.getResource(Constants.PRINT_ALL_BOOKS)%>");
 															
@@ -66,22 +64,18 @@
 														                .append($("<td>").text(sortedBooks.author));    
 														        });
 															}
-															else{
-																var infoMessage='<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>'
-															
-																$("#showBooks").append("<p>");
-																$("#showBooks").append(infoMessage);
-																$("#showBooks").append("</p>");
+															else
+															{
+																var infoMessage='<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>';
+																	$("<h2>").appendTo($("#showBooks")).append(infoMessage);
 																}
-														  
-														}
-														
-													});
-										});
-					});
 
-   
-</script>
+															}
+
+														});
+											});
+						});
+	</script>
 </body>
 
 </html>
