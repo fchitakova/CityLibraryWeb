@@ -79,7 +79,7 @@ public final class Constants {
 	public static final String ENTER_READER = "ENTER_READER";
 	public static final String ENTER_AUTHOR = "ENTER_AUTHOR";
 	public static final String PRESS = "PRESS";
-	public static final String INVALID_CHOICE_PROPERTY = "INVALID_CHOICE";
+	public static final String INVALID_CHOICE = "INVALID_CHOICE";
 	public static final String GOODBYE = "GOODBYE";
 	public static final String PROPERTIES_FILE_EXTENSION = ".properties";
 	public static final String BOOKS_XML_FILE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\catalogue.xml";

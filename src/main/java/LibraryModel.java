@@ -10,12 +10,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import jdk.internal.org.xml.sax.SAXException;
 import main.java.exceptions.BookException;
 import main.java.persistency.DBPersistency;

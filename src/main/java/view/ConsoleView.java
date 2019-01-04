@@ -573,7 +573,7 @@ public class ConsoleView implements View {
 		do {
 			successfulChoice = true;
 			if (numberOfTries > 0) {
-				printResource(Constants.INVALID_CHOICE_PROPERTY);
+				printResource(Constants.INVALID_CHOICE);
 			}
 			try {
 				String choice = bf.readLine().trim();

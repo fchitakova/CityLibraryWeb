@@ -1,5 +1,6 @@
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="main.java.view.ResourseManager"%>
+<%@page import="main.java.LibraryModel"%>
 <%@page import="main.java.Constants"%>
 
 <!DOCTYPE html>
@@ -14,7 +15,8 @@
 <body>
 
 
-	<div id="showSubmitForm"></div>
+	<div id="readerNameSubmit"></div>
+	<div id="showResult"></div>
 
 
 
@@ -27,7 +29,7 @@
 			url:"${pageContext.request.contextPath}/giveBook",
 			type:"POST",
 			dataType:"text",
-			data:{"getAvaialbleBooks":"getAvaialbleBooks"},
+			data:{"getAvailableBooks":"getAvailableBooks"},
 			success:
 			 function(returnedBooks){
 				if (returnedBooks!=='null'){
@@ -36,7 +38,7 @@
 				}
 				else{
 					var $message='<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>';
-					$("<h1>").appendTo($('#showSubmitForm')).append($message);
+					$("<h1>").appendTo($('#readerNameSubmit')).append($message);
 
 				}
 				
@@ -47,11 +49,44 @@
 	function postReaderInputForm(){
 		 var message='<%=languageResources.getResource(Constants.ENTER_READER)%>';
 		 var buttonLabel='<%=languageResources.getResource(Constants.SUBMIT_BUTTON_LABEL)%>';
-		 var $userInputForm=$("<form>").appendTo($("#showSubmitForm"));
-		 ($userInputForm).append("<h2>").
-		 append(message).append("</h2>").append("<br>").append("<input type=\"text\" id=\"readerName\">").
-		 append("<button type=\"submit\" id=\"submitReaderNameButton\" onClick=\"passReaderName()\">").
-		 append(buttonLabel).append("</button>");
+		 $("<h2>").appendTo($("#readerNameSubmit")).append(message);
+		 $("<b>").appendTo($("#readerNameSubmit"));
+		 $("#readerNameSubmit").append("<input type=\"text\" id=\"readerName\">");
+		 $("<button id=\"submitReaderNameButton\">").appendTo($("#readerNameSubmit")).append(buttonLabel);
+	}
+	
+	
+	$(document).on('click', '#submitReaderNameButton', function(){
+		var readerName=$("#readerName").val();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/giveBook",
+			type:"POST",
+			dataType:"text",
+			data:{"checkReaderName":"checkReaderName",
+				  readerName:readerName },
+				  success:function(readerValidityObject){
+					  if(checkReaderValidity(readerValidityObject)===true){
+						  
+					  }
+					  
+				  }
+				  
+			
+		});
+	});
+	
+	
+	function checkReaderValidity(readerValidityObject){
+		 var parsedReaderValidity=JSON.parse(readerValidity);
+		  if(parsedReaderValidity.isValidReaderName===false){
+			  $("<h2>").appendTo($("#showResult")).append('<%=languageResources.getResource(Constants.NOT_VALID_READER_NAME)%>'));
+            return false;
+		  }
+		  if(parsedReaderValidity.isRegisteredReader===false){
+			  $("<h2>").appendTo($("#showResult")).append('<%=languageResources.getResource(Constants.NOT_REGISTERED_READER)%>'));
+                return false;
+		  }
+		  return true;
 	}
 	
 	<%--

@@ -43,6 +43,11 @@
 	$(document).ready(function() {
 						$('#showBooksButton').click(function() {
 							var sortingOrder =$('input[name=sortingOrder]:checked', '#chooseSortingOrder').val();
+							if(sortingOrder==null){
+								var infoMessage='<%=languageResources.getResource(Constants.INVALID_CHOICE)%>';
+								alert(infoMessage);
+								return;
+							}
 											$.ajax({
 														url : "${pageContext.request.contextPath}/allBooks",
 														data : 
