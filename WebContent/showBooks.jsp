@@ -62,7 +62,9 @@
 															$("<h2>").appendTo($("#showBooks"))
 															         .append("<%=languageResources.getResource(Constants.PRINT_ALL_BOOKS)%>");
 															
-															var $table = $("<table>").appendTo($("#showBooks"));
+															var $table = $("<table>").appendTo($("#showBooks"))
+															.append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%>"))
+															.append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%>"));
 															 $.each(responseJson, function(index, sortedBooks) { 
 														            $("<tr>").appendTo($table)                    
 														                .append($("<td>").text(sortedBooks.title))       

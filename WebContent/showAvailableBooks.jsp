@@ -29,9 +29,9 @@
 			type : "POST",
 			success : function(responseJson) {
 				$('#showAvailableBooks').html("");
-			if (responseJson!='null'){ 
-				var $message='<%=languageResources.getResource(Constants.PRINT_AVAILABLE_BOOKS)%>';
-				$("<h1>").appendTo($('#showAvailableBooks')).append($message);
+			if (responseJson!==null){ 
+				var message='<%=languageResources.getResource(Constants.PRINT_AVAILABLE_BOOKS)%>';
+				$("<h1>").appendTo($('#showAvailableBooks')).append(message);
 
 				var $table = $("<table>").appendTo($("#showAvailableBooks"));
 				$("<tr>").appendTo($table)

@@ -24,7 +24,8 @@
 		src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript">
 	var availableBooks;
-	$(document).ready(function(){
+	
+	function getAvailableBooks(){
 		$.ajax({
 			url:"${pageContext.request.contextPath}/giveBook",
 			type:"POST",
@@ -32,8 +33,14 @@
 			data:{"getAvailableBooks":"getAvailableBooks"},
 			success:
 			 function(returnedBooks){
-				if (returnedBooks!=='null'){
 					availableBooks=returnedBooks;
+			}
+	});
+	}
+	
+	$(document).ready(function(){
+		availableBooks=getAvailableBooks();
+		if (availableBooks!=='null'){
 					postReaderInputForm();
 				}
 				else{
@@ -42,9 +49,8 @@
 
 				}
 				
-			}
-		});
-	});
+			});
+
 	
 	function postReaderInputForm(){
 		 var message='<%=languageResources.getResource(Constants.ENTER_READER)%>';
@@ -65,60 +71,47 @@
 			data:{"checkReaderName":"checkReaderName",
 				  readerName:readerName },
 				  success:function(readerValidityObject){
+					  $('#showResult').html("");
 					  if(checkReaderValidity(readerValidityObject)===true){
-						  
-					  }
-					  
+						  printAvailableBooksOptions();
+						}
+				
 				  }
-				  
+			});
 			
 		});
-	});
+	
+	
+	function printAvailableBooksOptions(){
+		var message='<%=languageResources.getResource(Constants.PRINT_AVAILABLE_BOOKS)%>';
+		  $("<h2>").appendTo($('#showResult')).append(message);
+		  var $table = $("<table>").appendTo($("#showResult"))
+			.append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%>"))
+			.append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%>"));
+			 $.each(JSON.parse(availableBooks), function(index, availableBook) {
+		            $("<tr>").appendTo($table)
+		                .append("<input type=\"radio\" name=\"booksToChoose\" value=index>")
+		                .append($("<td>").text(availableBook.title))      
+		                .append($("<td>").text(availableBook.author));
+		        });
+			 var buttonLabel="<%=languageResources.getResource(Constants.GIVE_BOOK_LABEL)%>";
+			 $("<button id=\"submitBookButton\">").appendTo($("#showResult")).append(buttonLabel);
+	}
+	
 	
 	
 	function checkReaderValidity(readerValidityObject){
-		 var parsedReaderValidity=JSON.parse(readerValidity);
+		 var parsedReaderValidity=JSON.parse(readerValidityObject);
 		  if(parsedReaderValidity.isValidReaderName===false){
-			  $("<h2>").appendTo($("#showResult")).append('<%=languageResources.getResource(Constants.NOT_VALID_READER_NAME)%>'));
+			  $("<h2>").appendTo($("#showResult")).append('<%=languageResources.getResource(Constants.NOT_VALID_READER_NAME)%>');
             return false;
 		  }
 		  if(parsedReaderValidity.isRegisteredReader===false){
-			  $("<h2>").appendTo($("#showResult")).append('<%=languageResources.getResource(Constants.NOT_REGISTERED_READER)%>'));
-                return false;
-		  }
-		  return true;
-	}
-	
-	<%--
-	   function passReaderName(){
-		   var readerName=$("#readerName").val();
-		   alert(readerName);
-			$.ajax({
-				url:"${pageContext.request.contextPath}/giveBook",
-				type:'post',
-				dataType:"text",
-				data:{readerName:readerName},
-		        success:function(){
-		        	alert(readerName);
-		        },
-		        fail:function(){
-		        	alert("fail");
-		        }
-			});
-	   }
-				<%--
-				success:
-				function(isValidInput,isRegistered,availableBooks){
-					if(isValidInput===false){
-						var infoMessage='<%= languageResources.getResource(Constants.NOT_VALID_READER_NAME) %>';
-						var $infoParagraph=$("<p>").appendTo($("#showAvailableBooks"));
-						("<b>").appendTo($infoParagraph).append(infoMessage);
-					}
-			   }
-				*/
-				--%>
-				
-			
+			  $("<h2>").appendTo($("#showResult")).append('<%=languageResources.getResource(Constants.NOT_REGISTERED_READER)%>');
+				return false;
+			}
+			return true;
+		}
 	</script>
 
 

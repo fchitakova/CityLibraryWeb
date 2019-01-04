@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 
 <%
-	ResourseManager languageResources = new ResourseManager("bulgarian");
+	ResourseManager languageResources = new ResourseManager();
 	session.setAttribute("languageResources", languageResources);
 %>
 
