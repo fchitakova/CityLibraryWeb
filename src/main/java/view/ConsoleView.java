@@ -61,7 +61,7 @@ public class ConsoleView implements View {
 			IllegalAccessException, ClassNotFoundException, TransformerFactoryConfigurationError,
 			ParserConfigurationException, TransformerException, SAXException, SQLException, PropertyVetoException,
 			jdk.internal.org.xml.sax.SAXException {
-		libraryDataController = new LibraryModel("WebContent\\WEB-INF\\lib\\resourses\\library.properties");
+		libraryDataController =LibraryModel.getInstance();
 		languageResouces = new ResourseManager();
 	}
 

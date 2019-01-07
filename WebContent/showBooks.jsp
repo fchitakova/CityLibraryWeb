@@ -3,7 +3,7 @@
 <%@page import="main.java.Constants"%>
 <%@page import="main.java.view.ResourseManager"%>
 
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
 
 <%
 	ResourseManager languageResources = ((ResourseManager) session.getAttribute("languageResources"));
@@ -12,15 +12,14 @@
 
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<script src= 'http://code.jquery.com/jquery-1.7.1.min.js'></script>
+ <script src="jsFiles\\showBooks.js"></script>
 
 
 <title><%=languageResources.getResource(Constants.ALL_BOOKS_LABEL)%>
 </title>
 </head>
 
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <body>
 
 	<h1>
@@ -37,52 +36,15 @@
 	<button id='showBooksButton'>Choose</button>
 
 
-	<div id="showBooks"></div>
+    <h2 id='infoMessage' visibility:hidden>
+    
+    </h2>
 
-	<script type="text/javascript">
-	$(document).ready(function() {
-						$('#showBooksButton').click(function() {
-							var sortingOrder =$('input[name=sortingOrder]:checked', '#chooseSortingOrder').val();
-							if(sortingOrder==null){
-								var infoMessage='<%=languageResources.getResource(Constants.INVALID_CHOICE)%>';
-								alert(infoMessage);
-								return;
-							}
-											$.ajax({
-														url : "${pageContext.request.contextPath}/allBooks",
-														data : 
-														{
-														   "sortingOrder":JSON.stringify(sortingOrder)
-														},
-													    dataType: "json",
-														type : "POST",
-														success : function(responseJson) {
-															$('#showBooks').html("");
-														if (responseJson!==null){ 
-															$("<h2>").appendTo($("#showBooks"))
-															         .append("<%=languageResources.getResource(Constants.PRINT_ALL_BOOKS)%>");
-															
-															var $table = $("<table>").appendTo($("#showBooks"))
-															.append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%>"))
-															.append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%>"));
-															 $.each(responseJson, function(index, sortedBooks) { 
-														            $("<tr>").appendTo($table)                    
-														                .append($("<td>").text(sortedBooks.title))       
-														                .append($("<td>").text(sortedBooks.author));    
-														        });
-															}
-															else
-															{
-																var infoMessage='<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>';
-																	$("<h2>").appendTo($("#showBooks")).append(infoMessage);
-																}
+	<div id="showBooks">
+	
+	</div>
 
-															}
 
-														});
-											});
-						});
-	</script>
 </body>
 
 </html>

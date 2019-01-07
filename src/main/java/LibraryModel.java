@@ -43,7 +43,7 @@ public class LibraryModel implements Serializable {
 	/**
 	 * Catalog containing all the books in library.
 	 */
-	private Catalog bookCatalogue;
+	private static Catalog bookCatalogue;
 
 	/**
 	 * Persistence is responsible for storing and managing information. This can be
@@ -51,21 +51,24 @@ public class LibraryModel implements Serializable {
 	 * 
 	 * @see {@link Persistency}
 	 */
-	private Persistency persistency;
+	private static Persistency persistency;
 	/**
 	 * Contains library's reader information.
 	 */
-	private Readers readers;
+	private static Readers readers;
 	/**
 	 * Property file contains library settings information.
 	 */
-	private Properties libraryProperties;
+	private static Properties libraryProperties;
+
+	private static LibraryModel libraryModel = null;
 
 	/**
 	 * Creates new LibraryController using the project setting properties in the
 	 * property file.
 	 * 
 	 * @param propertyFileName is the property file containing the library settings.
+	 * @throws org.xml.sax.SAXException 
 	 * 
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws PropertyVetoException
@@ -81,13 +84,19 @@ public class LibraryModel implements Serializable {
 	 * @throws                                      org.xml.sax.SAXException
 	 * @throws Exception
 	 */
-	public LibraryModel(String propertyFileName)
-			throws TransformerFactoryConfigurationError, TransformerConfigurationException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException, ParserConfigurationException, IOException,
-			TransformerException, SAXException, SQLException, PropertyVetoException, org.xml.sax.SAXException {
-		bookCatalogue = new Catalog();
-		readers = new Readers();
-		initProperties(propertyFileName);
+
+	public static LibraryModel getInstance() throws ClassNotFoundException, IOException, TransformerException, SAXException, SQLException, TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
+		if (libraryModel == null) {
+			bookCatalogue = new Catalog();
+			readers = new Readers();
+			initProperties(Constants.LIBRARY_PROPERTIES_FILE_PATH);
+			libraryModel=new LibraryModel();
+		}
+		return libraryModel;
+	}
+
+	private LibraryModel() {
+
 	}
 
 	/**
@@ -104,7 +113,7 @@ public class LibraryModel implements Serializable {
 	 * @throws ClassNotFoundException
 	 * @throws                                      org.xml.sax.SAXException
 	 */
-	private void initProperties(String propertyFileName)
+	private static void initProperties(String propertyFileName)
 			throws IOException, TransformerException, SAXException, SQLException, ClassNotFoundException,
 			TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
 
@@ -132,7 +141,7 @@ public class LibraryModel implements Serializable {
 	 * @param propertyKey is the key value of searched property
 	 * @return
 	 */
-	private String getProperty(String propertyKey) {
+	private static String getProperty(String propertyKey) {
 		return libraryProperties.getProperty(propertyKey);
 	}
 
