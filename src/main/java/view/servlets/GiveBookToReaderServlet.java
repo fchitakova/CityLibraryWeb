@@ -17,7 +17,7 @@ import main.java.view.WebViewManagingServlet;
 
 @WebServlet(urlPatterns= {WebViewManagingServlet.GIVE_BOOK_TO_READER_URL})
 public class GiveBookToReaderServlet extends WebViewManagingServlet{
-	protected GiveBookToReaderServlet() throws ClassNotFoundException, IOException, TransformerException, SAXException,
+	public GiveBookToReaderServlet() throws ClassNotFoundException, IOException, TransformerException, SAXException,
 			SQLException, TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
 		super();
 	}

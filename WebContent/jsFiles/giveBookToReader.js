@@ -34,7 +34,7 @@ function getAvailableBooks(){
 			url:"/CityLibraryWeb/giveBook",
 			type:"GET",
 			dataType:"text",
-			data:readerName ,
+			data:{"readerName":readerName} ,
 				  success:function(readerValidityObject){
 					  alert(readerName);
 					  $('#showResult').html("");
