@@ -1,4 +1,5 @@
 <%@page import="org.eclipse.jdt.internal.compiler.ast.ThisReference"%>
+<%@page import="main.java.view.ResourseManagerSingleton"%>
 <%@page import="main.java.view.ResourseManager"%>
 <%@page import="main.java.Constants"%>
 
@@ -6,8 +7,7 @@
 <!DOCTYPE html>
 
 <%
-	ResourseManager languageResources = new ResourseManager();
-	session.setAttribute("languageResources", languageResources);
+ ResourseManager languageResources = ResourseManagerSingleton.getInstance();
 %>
 
 

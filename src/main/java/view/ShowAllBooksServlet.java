@@ -28,9 +28,7 @@ import main.java.Reader;
 import main.java.exceptions.BookException;
 
 @WebServlet(urlPatterns = { ShowAllBooksServlet.SHOW_ALL_BOOKS_URL })
-/*
- * WebView.SHOW_AVAILABLE_BOOKS_URL, WebView.GIVE_BOOK_TO_READER_URL })
- */
+
 public class ShowAllBooksServlet extends WebViewManagingServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -51,15 +49,11 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 	 * @throws TransformerConfigurationException
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ShowAllBooksServlet() throws ClassNotFoundException, IOException, TransformerException, SAXException, SQLException,
-			TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
+	public ShowAllBooksServlet() throws ClassNotFoundException, IOException, TransformerException, SAXException,
+			SQLException, TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
 		super();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
@@ -75,30 +69,7 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		sendAllBooksToClient(request, response);
 	}
 
-	/*
-	 * if (request.getRequestURI().equals(request.getContextPath() +
-	 * SHOW_AVAILABLE_BOOKS_URL)) { sendAvailableBooksToClient(response); } if
-	 * (request.getRequestURI().equals(request.getContextPath() +
-	 * GIVE_BOOK_TO_READER_URL)) { String
-	 * getAvailableBooksRequest=request.getParameter(GET_AVAILALBLE_BOOKS_REQUEST);
-	 * if (getAvailableBooksRequest != null) { sendAvailableBooksToClient(response);
-	 * } String checkReaderNameRequest =
-	 * request.getParameter(CHECK_READER_NAME_REQUEST); if (checkReaderNameRequest
-	 * != null) { String
-	 * readerName=request.getParameter(READER_NAME_REQUEST_PARAMETER).replaceAll(
-	 * "\\s+", " ").trim(); boolean isValidReaderName =
-	 * LibraryModel.checkInputTextValidity(readerName); Reader reader =
-	 * libraryDataController.getSpecificReader(readerName); boolean
-	 * isRegisteredReader = false; if (reader != null) { isRegisteredReader = true;
-	 * } JsonObject jsonResponseObject = new JsonObject();
-	 * jsonResponseObject.addProperty(IS_VALID_READER_NAME_JSON_PROPERTY,
-	 * isValidReaderName);
-	 * jsonResponseObject.addProperty(IS_REGISTERED_READER_JSON_PROPERTY,
-	 * isRegisteredReader); String json = new Gson().toJson(jsonResponseObject);
-	 * sendJsonResponse(response, json); } }
-	 * 
-	 * }
-	 */
+    
 	private void sendAllBooksToClient(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String chosenSortingOrder = request.getParameter(SORTING_ORDER_REQ_PARAM);
@@ -123,11 +94,6 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		sendJsonResponse(response, json);
 	}
 
-	/*
-	 * private void sendAvailableBooksToClient(HttpServletResponse response) throws
-	 * IOException { Set<LibraryBook> availableBooks =
-	 * libraryDataController.getAvailableBooks(); String json = new
-	 * Gson().toJson(availableBooks); sendJsonResponse(response, json); }
-	 */
+
 
 }

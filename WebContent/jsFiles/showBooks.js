@@ -1,10 +1,12 @@
 $( document ).ready(function() {
-    console.log( "ready!" );
+  $("#menu").load("index.jsp");
+});
+
+$( document ).ready(function() {
     $('#showBooksButton').click(function() {
         var sortingOrder = $('input[name=sortingOrder]:checked', '#chooseSortingOrder').val();
         if (sortingOrder == null) {
-            var infoMessage = '<%=languageResources.getResource(Constants.INVALID_CHOICE)%>';
-            alert(infoMessage);
+        	document.getElementById("invalidChoice").style.visibility="visible";
             return;
         }
         else{
@@ -18,20 +20,15 @@ $( document ).ready(function() {
             success: function(responseJson) {
                 $('#showBooks').html("");
                 if (responseJson !== null) {
-                    $("<h2>").appendTo($("#showBooks"))
-                        .append("<%=languageResources.getResource(Constants.PRINT_ALL_BOOKS)%>");
-
-                    var $table = $("<table>").appendTo($("#showBooks"))
-                        .append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%>"))
-                        .append($("<th>").text("<%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%>"));
+                	document.getElementById("infoMessage").style.visibility="visible";
+                	document.getElementById("showBooks").style.visibility="visible";
                     $.each(responseJson, function(index, sortedBooks) {
-                        $("<tr>").appendTo($table)
+                        $("<tr>").appendTo($("#showBooks"))
                             .append($("<td>").text(sortedBooks.title))
                             .append($("<td>").text(sortedBooks.author));
                     });
                 } else {
-                    var infoMessage = '<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>';
-                    $("<h2>").appendTo($("#showBooks")).append(infoMessage);
+                	document.getElementById("errorMessage").style.visibility="visible";
                 }
 
             }
