@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,12 +38,14 @@ public class ShowAvaialbleBooksServlet extends WebViewManagingServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		sendAvailableBooksToClient(response);
+		RequestDispatcher rd = request.getRequestDispatcher("availableBooks.jsp");
+		rd.forward(request, response);
 	}
 
 	private void sendAvailableBooksToClient(HttpServletResponse response) throws IOException {
-		Set<LibraryBook> availableBooks = libraryDataController.getAvailableBooks();
-		String json = new Gson().toJson(availableBooks);
-		sendJsonResponse(response, json);
+		//Set<LibraryBook> availableBooks = libraryDataController.getAvailableBooks();
+		//String json = new Gson().toJson(availableBooks);
+		sendJsonResponse(response, "[]");
 
 	}
 

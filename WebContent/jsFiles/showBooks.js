@@ -18,7 +18,8 @@ $( document ).ready(function() {
             dataType: "json",
             type: "POST",
             success: function(responseJson) {
-                if (responseJson !== null) {
+            	responseJson=JSON.parse(responseJson);
+                if (responseJso.length!=0) {
                 	document.getElementById("infoMessage").style.display="block";
                 	$("#fillBooksInfo").html("");
                 	document.getElementById("invalidChoice").style.display="none";

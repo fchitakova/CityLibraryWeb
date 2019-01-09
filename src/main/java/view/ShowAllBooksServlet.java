@@ -69,7 +69,6 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		sendAllBooksToClient(request, response);
 	}
 
-    
 	private void sendAllBooksToClient(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String chosenSortingOrder = request.getParameter(SORTING_ORDER_REQ_PARAM);
@@ -89,11 +88,14 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		} catch (BookException e) {
 
 		}
-
-		String json = new Gson().toJson(sortedBooks);
-		sendJsonResponse(response, json);
+		//if (sortedBooks.isEmpty()) {
+			sendJsonResponse(response, "[]");
+			/*
+		} else {
+			String json = new Gson().toJson(sortedBooks);
+			sendJsonResponse(response, json);
+		}
+		*/
 	}
-
-
 
 }
