@@ -6,7 +6,7 @@ $( document ).ready(function() {
     $('#showBooksButton').click(function() {
         var sortingOrder = $('input[name=sortingOrder]:checked', '#chooseSortingOrder').val();
         if (sortingOrder == null) {
-        	document.getElementById("invalidChoice").style.visibility="visible";
+        	document.getElementById("invalidChoice").style.display="block";
             return;
         }
         else{
@@ -18,17 +18,18 @@ $( document ).ready(function() {
             dataType: "json",
             type: "POST",
             success: function(responseJson) {
-                $('#showBooks').html("");
                 if (responseJson !== null) {
-                	document.getElementById("infoMessage").style.visibility="visible";
-                	document.getElementById("showBooks").style.visibility="visible";
+                	document.getElementById("infoMessage").style.display="block";
+                	$("#fillBooksInfo").html("");
+                	document.getElementById("invalidChoice").style.display="none";
+                	document.getElementById("showBooks").style.display="block";
                     $.each(responseJson, function(index, sortedBooks) {
-                        $("<tr>").appendTo($("#showBooks"))
+                        $("<tr>").appendTo($("#fillBooksInfo"))
                             .append($("<td>").text(sortedBooks.title))
                             .append($("<td>").text(sortedBooks.author));
                     });
                 } else {
-                	document.getElementById("errorMessage").style.visibility="visible";
+                	document.getElementById("errorMessage").style.display="block";
                 }
 
             }

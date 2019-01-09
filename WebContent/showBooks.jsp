@@ -37,20 +37,21 @@
 
 
 
-	<h2 id='errorMessage' style="visibility: hidden">
+	<h2 id='errorMessage' style="display: none">
 		<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>
 	</h2>
-	<h2 id="invalidChoice" style="visibility: hidden">
+	<h2 id="invalidChoice" style="display: none">
 		<%=languageResources.getResource(Constants.INVALID_CHOICE)%>
 	</h2>
-	<h2 id='infoMessage' style="visibility: hidden">
+	<h2 id='infoMessage' style="display: none">
 		<%=languageResources.getResource(Constants.PRINT_ALL_BOOKS)%>
 	</h2>
-	<table id="showBooks" style="visibility: hidden">
+	<table id="showBooks" style="display: none">
 		<tr>
 			<th><%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%></th>
 			<th><%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%></th>
 		</tr>
+	 <table id="fillBooksInfo"></table>
 	</table>
 
 </body>

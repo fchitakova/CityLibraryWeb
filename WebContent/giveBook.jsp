@@ -11,41 +11,54 @@
 <html>
 <head>
 <script type="text/javascript"
-		src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="jsFiles\\giveBookToReader.js"></script>
+	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="jsFiles\\giveBookToReader.js"></script>
 <title><%=languageResources.getResource(Constants.GIVE_BOOK_LABEL)%>
 </title>
 </head>
 <body>
 	<div id="menu"></div>
 
-	<div id="readerNameSubmit" style="visbility: hidden">
+	<div id="readerNameSubmit" style="display: none">
 		<h2><%=languageResources.getResource(Constants.ENTER_READER)%></h2>
 		<br> <input type="text" id="readerName">
 		<button id="submitReaderNameButton"><%=languageResources.getResource(Constants.SUBMIT_BUTTON_LABEL)%></button>
-
 	</div>
 
-	<h2 id="notAnyBooksMessage" style="visibility: hidden">
-		'<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%></h2>
+	<h2 id="notValidReaderName" style="display: none">
+		<%=languageResources.getResource(Constants.NOT_VALID_READER_NAME)%>
+	</h2>
 
-	<div id="showResult" style="visibility: hidden">
+	<h2 id="notRegisteredReader" style="display: none">
+		<%=languageResources.getResource(Constants.NOT_REGISTERED_READER)%>
+	</h2>
+
+	<h2 id="notAnyBooksMessage" style="display: none">
+		<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>
+	</h2>
+
+	<div id="showResult" style="display: none">
+
 		<h2><%=languageResources.getResource(Constants.PRINT_AVAILABLE_BOOKS)%></h2>
-		<table id="booksTable">
+		<table id="booksLabels" style="display: none">
 			<tr>
 				<th><%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%></th>
 				<th><%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%></th>
 			</tr>
-
+		</table>
+		<table id="booksTable">
 		</table>
 		<button id="submitBookButton"><%=languageResources.getResource(Constants.GIVE_BOOK_LABEL)%></button>
+		<h2 id="successfullyGivenBook" style="display: none">
+			<%=languageResources.getResource(Constants.SUCCESSFULLY_GIVEN_BOOK)%>
+		</h2>
+
 	</div>
 
+	<h2 id="invalidChoice" style="display: none">
+		<%=languageResources.getResource(Constants.INVALID_CHOICE)%>
+	</h2>
 
-
-	
-		
-	</script>
 
 
 

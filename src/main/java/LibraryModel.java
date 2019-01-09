@@ -266,7 +266,7 @@ public class LibraryModel implements Serializable {
 	 * @throws Exception
 	 */
 	public void giveBookToReader(String authorName, String title, String readerName)
-			throws ReaderException, BookException, TransformerConfigurationException, TransformerException,
+			throws TransformerConfigurationException, TransformerException,
 			TransformerFactoryConfigurationError, ParserConfigurationException, SAXException, IOException, SQLException,
 			PropertyVetoException, org.xml.sax.SAXException {
 		Book bookToAdd = new Book(authorName, title);

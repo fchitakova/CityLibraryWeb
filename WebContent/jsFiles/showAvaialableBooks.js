@@ -21,7 +21,6 @@ $(document).ready(
 			                .append($("<td>").text(sortedBooks.copies));
 			        });
 				}
-			
 				else{
 					document.getElementById("missingBooksMessage").style.visibility="visible";
 				}

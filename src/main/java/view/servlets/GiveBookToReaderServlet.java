@@ -1,43 +1,79 @@
 package main.java.view.servlets;
 
+import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import com.google.gson.JsonObject;
+
 import jdk.internal.org.xml.sax.SAXException;
+import main.java.LibraryModel;
 import main.java.view.WebViewManagingServlet;
 
+@WebServlet(urlPatterns = { WebViewManagingServlet.GIVE_BOOK_TO_READER_URL })
+public class GiveBookToReaderServlet extends WebViewManagingServlet {
+	private String readerName;
 
-@WebServlet(urlPatterns= {WebViewManagingServlet.GIVE_BOOK_TO_READER_URL})
-public class GiveBookToReaderServlet extends WebViewManagingServlet{
 	public GiveBookToReaderServlet() throws ClassNotFoundException, IOException, TransformerException, SAXException,
 			SQLException, TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
 		super();
+		readerName = null;
+
 	}
 
 	private static final long serialVersionUID = 1L;
-       
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("readerName"));
-		
-	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String readerName = request.getParameter("readerName");
+		if (readerName != null) {
+			boolean validReaderName = LibraryModel.checkInputTextValidity(readerName);
+			boolean registeredReader = false;
+			if (libraryDataController.getSpecificReader(readerName) != null) {
+				registeredReader = true;
+			}
+			JsonObject responseJson = new JsonObject();
+			responseJson.addProperty("validReaderName", validReaderName);
+			responseJson.addProperty("registeredReader", registeredReader);
+			sendJsonResponse(response, responseJson.toString());
+
+			if (validReaderName && registeredReader) {
+				this.readerName = readerName;
+			}
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("giveBook.jsp");
+			rd.forward(request, response);
+		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String chosenBookRequest=request.getParameter("chosenBook");
+		
+		if (chosenBookRequest!=null) {
+			String[] titleAndAuthor = chosenBookRequest.replaceAll("\"", "").split(" ");
+			try {
+				System.out.println(titleAndAuthor[0] + " " + titleAndAuthor[1] + " " + readerName);
+				libraryDataController.giveBookToReader(titleAndAuthor[0], titleAndAuthor[1], readerName);
+			} catch (TransformerException | TransformerFactoryConfigurationError | ParserConfigurationException
+					| SAXException | SQLException | PropertyVetoException | org.xml.sax.SAXException e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("giveBook.jsp");
+			rd.forward(request, response);
+		}
+
 	}
 
 }
