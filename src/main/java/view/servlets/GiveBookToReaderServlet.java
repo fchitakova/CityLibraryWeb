@@ -19,7 +19,7 @@ import jdk.internal.org.xml.sax.SAXException;
 import main.java.LibraryModel;
 import main.java.view.WebViewManagingServlet;
 
-@WebServlet(urlPatterns = { WebViewManagingServlet.GIVE_BOOK_TO_READER_URL })
+@WebServlet(urlPatterns = { "/giveBook" })
 public class GiveBookToReaderServlet extends WebViewManagingServlet {
 	private String readerName;
 
@@ -41,10 +41,7 @@ public class GiveBookToReaderServlet extends WebViewManagingServlet {
 			if (libraryDataController.getSpecificReader(readerName) != null) {
 				registeredReader = true;
 			}
-			JsonObject responseJson = new JsonObject();
-			responseJson.addProperty("validReaderName", validReaderName);
-			responseJson.addProperty("registeredReader", registeredReader);
-			sendJsonResponse(response, responseJson.toString());
+			sendValidityObject(response, validReaderName, registeredReader);
 
 			if (validReaderName && registeredReader) {
 				this.readerName = readerName;
@@ -53,6 +50,14 @@ public class GiveBookToReaderServlet extends WebViewManagingServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("giveBook.jsp");
 			rd.forward(request, response);
 		}
+	}
+
+	private void sendValidityObject(HttpServletResponse response, boolean validReaderName, boolean registeredReader)
+			throws IOException {
+		JsonObject responseJson = new JsonObject();
+		responseJson.addProperty("validReaderName", validReaderName);
+		responseJson.addProperty("registeredReader", registeredReader);
+		sendJsonResponse(response, responseJson.toString());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

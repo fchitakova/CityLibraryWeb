@@ -23,6 +23,7 @@ public final class Constants {
 	public static final String SUBMIT_BUTTON_LABEL="SUBMIT_BUTTON_LABEL";
 	public static final String BOOK_COPIES_LABEL="BOOK_COPIES_LABEL";
 	public static final String READER_NAME_LABEL="READER_NAME_LABEL";
+	public static final String RETURN_BOOK_LABEL="RETURN_BOOK_LABEL";
 	public static final String CHOOSE_SORTING_ORDER="CHOOSE_SORTING_ORDER";
 	public static final String SEE_AVAILABLE_BOOKS = "SEE_AVAILABLE_BOOKS";
 	public static final String GIVE_BOOK_TO_READER = "GIVE_BOOK_TO_READER";

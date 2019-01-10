@@ -277,7 +277,7 @@ public class ConsoleView implements View {
 			throws IOException, TransformerFactoryConfigurationError, SQLException, PropertyVetoException, Exception {
 		String readerName = getReader();
 
-		if (checkReaderValidity(readerName)) {
+		if (checkReaderValidity(readerName)==false) {
 			return;
 		}
 
@@ -294,6 +294,7 @@ public class ConsoleView implements View {
 		}
 
 		libraryDataController.returnBook(bookInfo[0], bookInfo[1], readerName);
+		printResource(Constants.SUCCESSFULLY_RETURNED_BOOK);
 
 	}
 

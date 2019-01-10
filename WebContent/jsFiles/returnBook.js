@@ -1,17 +1,23 @@
 
-$(document).ready(function() {
+('click', '#submitReaderNameButton', function() {
+	var readerName = $("#readerName").val();
 	$.ajax({
-		url : "/CityLibraryWeb/availableBooks",
-		type : "POST",
-		dataType : "json",
-		success : function(books) {
-			if (books !== null) {
-				showElements([ 'readerNameSubmit' ]);
-			} else {
-				showElements([ 'notAnyBooksMessage' ]);
+		url : "/CityLibraryWeb/giveBook",
+		type : "GET",
+		dataType : "text",
+		data : {
+			"readerName" : readerName
+		},
+		success : function(readerValidityObject) {
+			$('#booksTable').html("");
+			hideElements(['showResult']);
+			if (checkReaderValidity(readerValidityObject) === true) {
+				printAvailableBooksOptions();
 			}
+
 		}
 	});
+
 });
 
 $(document).on('click', '#submitReaderNameButton', function() {
@@ -83,16 +89,3 @@ function printAvailableBooksOptions() {
 	});
 }
 
-function checkReaderValidity(readerValidityObject) {
-	readerValidityObject = JSON.parse(readerValidityObject);
-	hideElements(['notValidReaderName', 'notRegisteredReader']);
-	if (readerValidityObject.validReaderName === false) {
-		showElements([ 'notValidReaderName' ]);
-		return false;
-	}
-	if (readerValidityObject.registeredReader === false) {
-		showElements([ 'notRegisteredReader' ]);
-		return false;
-	}
-	return true;
-}

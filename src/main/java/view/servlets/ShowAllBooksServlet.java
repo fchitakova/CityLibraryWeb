@@ -1,12 +1,11 @@
-package main.java.view;
+package main.java.view.servlets;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,18 +15,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import jdk.internal.org.xml.sax.SAXException;
 import main.java.Constants;
 import main.java.LibraryBook;
-import main.java.LibraryModel;
-import main.java.Reader;
-import main.java.exceptions.BookException;
+import main.java.view.WebViewManagingServlet;
 
-@WebServlet(urlPatterns = { ShowAllBooksServlet.SHOW_ALL_BOOKS_URL })
+@WebServlet(urlPatterns = { "/allBooks" })
 
 public class ShowAllBooksServlet extends WebViewManagingServlet {
 
@@ -56,7 +50,8 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher("/showBooks.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -73,6 +68,23 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 
 		String chosenSortingOrder = request.getParameter(SORTING_ORDER_REQ_PARAM);
 
+		sendBooksAsJSON(response, chosenSortingOrder);
+
+	}
+
+	private void sendBooksAsJSON(HttpServletResponse response, String chosenSortingOrder) throws IOException {
+		List<LibraryBook> sortedBooks = getSortedBooks(chosenSortingOrder);
+		String json = null;
+		if (sortedBooks.isEmpty()) {
+			json = "[]";
+		} else {
+			json = new Gson().toJson(sortedBooks);
+
+		}
+		sendJsonResponse(response, json);
+	}
+
+	private List<LibraryBook> getSortedBooks(String chosenSortingOrder) throws IOException {
 		int sortingOrderChoice = Constants.INVALID_CHOICE_NUMBER;
 		List<LibraryBook> sortedBooks = null;
 
@@ -82,20 +94,9 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		} else {
 			sortingOrderChoice = Constants.SORT_BY_AUTHOR_ID;
 		}
+		sortedBooks = libraryDataController.getBooksSorted(sortingOrderChoice);
 
-		try {
-			sortedBooks = libraryDataController.getBooksSorted(sortingOrderChoice);
-		} catch (BookException e) {
-
-		}
-		//if (sortedBooks.isEmpty()) {
-			sendJsonResponse(response, "[]");
-			/*
-		} else {
-			String json = new Gson().toJson(sortedBooks);
-			sendJsonResponse(response, json);
-		}
-		*/
+		return sortedBooks;
 	}
 
 }

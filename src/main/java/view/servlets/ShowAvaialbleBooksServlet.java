@@ -19,7 +19,7 @@ import jdk.internal.org.xml.sax.SAXException;
 import main.java.LibraryBook;
 import main.java.view.WebViewManagingServlet;
 
-@WebServlet(urlPatterns = { WebViewManagingServlet.SHOW_AVAILABLE_BOOKS_URL})
+@WebServlet(urlPatterns = { "/availableBooks"})
 public class ShowAvaialbleBooksServlet extends WebViewManagingServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -32,20 +32,24 @@ public class ShowAvaialbleBooksServlet extends WebViewManagingServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher("/availableBooks.jsp");
+		rd.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		sendAvailableBooksToClient(response);
-		RequestDispatcher rd = request.getRequestDispatcher("availableBooks.jsp");
-		rd.forward(request, response);
 	}
 
 	private void sendAvailableBooksToClient(HttpServletResponse response) throws IOException {
-		//Set<LibraryBook> availableBooks = libraryDataController.getAvailableBooks();
-		//String json = new Gson().toJson(availableBooks);
-		sendJsonResponse(response, "[]");
+		Set<LibraryBook> availableBooks = libraryDataController.getAvailableBooks();
+		String json=null;
+		if(availableBooks.isEmpty()) {
+			json="[]";
+		}else {
+			json = new Gson().toJson(availableBooks);
+		}
+		sendJsonResponse(response, json);
 
 	}
 

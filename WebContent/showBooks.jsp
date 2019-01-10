@@ -33,7 +33,7 @@
 		<input type="radio" name="sortingOrder" value="byAuthor">
 	</form>
 	<%=languageResources.getResource(Constants.SORTED_BY_AUTHOR)%>
-	<button id='showBooksButton'>Choose</button>
+	<button id='showBooksButton'><%=languageResources.getResource(Constants.SUBMIT_BUTTON_LABEL)%></button>
 
 
 
@@ -51,8 +51,8 @@
 			<th><%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%></th>
 			<th><%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%></th>
 		</tr>
-	 <table id="fillBooksInfo"></table>
 	</table>
+	<table id="fillBooksInfo"></table>
 
 </body>
 

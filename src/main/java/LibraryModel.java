@@ -68,7 +68,7 @@ public class LibraryModel implements Serializable {
 	 * property file.
 	 * 
 	 * @param propertyFileName is the property file containing the library settings.
-	 * @throws org.xml.sax.SAXException 
+	 * @throws                                      org.xml.sax.SAXException
 	 * 
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws PropertyVetoException
@@ -85,12 +85,14 @@ public class LibraryModel implements Serializable {
 	 * @throws Exception
 	 */
 
-	public static LibraryModel getInstance() throws ClassNotFoundException, IOException, TransformerException, SAXException, SQLException, TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
+	public static LibraryModel getInstance()
+			throws ClassNotFoundException, IOException, TransformerException, SAXException, SQLException,
+			TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
 		if (libraryModel == null) {
 			bookCatalogue = new Catalog();
 			readers = new Readers();
 			initProperties(Constants.LIBRARY_PROPERTIES_FILE_PATH);
-			libraryModel=new LibraryModel();
+			libraryModel = new LibraryModel();
 		}
 		return libraryModel;
 	}
@@ -226,15 +228,11 @@ public class LibraryModel implements Serializable {
 	 * 
 	 * 
 	 * @throws IOException
-	 * @throws BookException is thrown when there are not any books.
 	 * 
 	 */
-	public List<LibraryBook> getBooksSorted(int sortingOrder) throws IOException, BookException {
+	public List<LibraryBook> getBooksSorted(int sortingOrder) throws IOException {
 		List<LibraryBook> sortedBooksList = null;
 		Set<LibraryBook> booksToSort = bookCatalogue.getLibraryBooks();
-		if (booksToSort.isEmpty()) {
-			throw new BookException(Constants.NOT_ANY_BOOKS);
-		}
 		if (sortingOrder == Constants.SORT_BY_AUTHOR_ID) {
 			sortedBooksList = bookCatalogue.sortBooks(new AuthorComparator(), booksToSort);
 		}
@@ -266,9 +264,9 @@ public class LibraryModel implements Serializable {
 	 * @throws Exception
 	 */
 	public void giveBookToReader(String authorName, String title, String readerName)
-			throws TransformerConfigurationException, TransformerException,
-			TransformerFactoryConfigurationError, ParserConfigurationException, SAXException, IOException, SQLException,
-			PropertyVetoException, org.xml.sax.SAXException {
+			throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError,
+			ParserConfigurationException, SAXException, IOException, SQLException, PropertyVetoException,
+			org.xml.sax.SAXException {
 		Book bookToAdd = new Book(authorName, title);
 		Reader reader = new Reader(readerName);
 		persistency.giveBookToReader(reader, bookToAdd);
@@ -290,10 +288,9 @@ public class LibraryModel implements Serializable {
 	public void returnBook(String authorName, String title, String readerName)
 			throws TransformerFactoryConfigurationError, SQLException, PropertyVetoException, IOException, Exception {
 		Book bookToReturn = new Book(authorName, title);
-		Reader returningReader = new Reader(readerName);
-		persistency.returnBook(returningReader, bookToReturn);
+		persistency.returnBook(new Reader(readerName), bookToReturn);
 		bookCatalogue.addBook(bookToReturn);
-		returningReader.returnBook(bookToReturn);
+		readers.getReaderFromSet(readerName).returnBook(bookToReturn);
 
 	}
 

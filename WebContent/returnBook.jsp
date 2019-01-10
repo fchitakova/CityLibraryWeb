@@ -11,9 +11,9 @@
 <head>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="jsFiles/showAvaialableBooks.js"></script>
-<script src="jsFiles\\giveBookToReader.js"></script>
-<title><%=languageResources.getResource(Constants.GIVE_BOOK_LABEL)%>
+<script src="jsFiles\\showAvaialableBooks.js"></script>
+<script src="jsFiles\\returnBook.js"></script>
+<title><%=languageResources.getResource(Constants.RETURN_BOOK_LABEL)%>
 </title>
 </head>
 <body>
@@ -34,12 +34,12 @@
 	</h2>
 
 	<h2 id="notAnyBooksMessage" style="display: none">
-		<%=languageResources.getResource(Constants.NOT_ANY_BOOKS)%>
+		<%=languageResources.getResource(Constants.NOT_ANY_TAKEN_BOOKS)%>
 	</h2>
 
 	<div id="showResult" style="display: none">
 
-		<h2><%=languageResources.getResource(Constants.PRINT_AVAILABLE_BOOKS)%></h2>
+		<h2><%=languageResources.getResource(Constants.CHOOSE_BOOK_MESSAGE)%></h2>
 		<table id="booksLabels" style="display: none">
 			<tr>
 				<th><%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%></th>
@@ -48,9 +48,9 @@
 		</table>
 		<table id="booksTable">
 		</table>
-		<button id="submitBookButton"><%=languageResources.getResource(Constants.GIVE_BOOK_LABEL)%></button>
+		<button id="submitBookButton"><%=languageResources.getResource(Constants.CHOOSE_BOOK_MESSAGE)%></button>
 		<h2 id="successfulOperation" style="display: none">
-			<%=languageResources.getResource(Constants.SUCCESSFULLY_GIVEN_BOOK)%>
+			<%=languageResources.getResource(Constants.SUCCESSFULLY_RETURNED_BOOK)%>
 		</h2>
 
 	</div>
