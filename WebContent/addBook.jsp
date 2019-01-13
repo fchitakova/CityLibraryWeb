@@ -31,7 +31,7 @@
 	</div>
 	
 	<h2 id="successfullyAddedBook" style="display:none">
-	   <%=languageResources.getResource(Constants.SUCCESSFULLY_ADDED_BOOK)%>
+	    <%=languageResources.getResource(Constants.SUCCESSFULLY_ADDED_BOOK)%>
 	</h2>
 	
 	<h2 id="notValidTitleOrAuthor" style="display: none">

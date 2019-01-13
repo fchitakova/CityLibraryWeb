@@ -33,9 +33,12 @@ public class AddBook extends WebViewManagingServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String title=request.getParameter(BOOK_TITLE_REQUEST_PARAMETER);
 		String author=request.getParameter(BOOK_AUTHOR_REQUEST_PARAMETER);
-		System.out.println(author+" "+title);
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+		if(libraryDataController.checkInputTextValidity(title) && this.libraryDataController.checkInputTextValidity(author)) {
+			sendJsonResponse(response, "true");
+		}
+		else {
+			sendJsonResponse(response, "false");
+		}
 	}
 
 }

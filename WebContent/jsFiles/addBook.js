@@ -30,7 +30,7 @@ $(document).on('click', '#submit', function() {
 		},
 		success : function(successfullyAdded) {
 			hideElements(['successfullyAddedBook','notValidTitleOrAuthor']);
-			if (successfullyAdded === true) {
+			if (successfullyAdded == 'true') {
 				showElements(['successfullyAddedBook']);
 			}
 			else{
