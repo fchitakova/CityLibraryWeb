@@ -11,8 +11,8 @@
 <head>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="jsFiles/showAvaialableBooks.js"></script>
-<script src="jsFiles\\giveBookToReader.js"></script>
+	
+<script src="jsFiles\giveBookToReader.js"></script>
 <title><%=languageResources.getResource(Constants.GIVE_BOOK_LABEL)%>
 </title>
 </head>
@@ -49,7 +49,7 @@
 		<table id="booksTable">
 		</table>
 		<button id="submitBookButton"><%=languageResources.getResource(Constants.GIVE_BOOK_LABEL)%></button>
-		<h2 id="successfulOperation" style="display: none">
+		<h2 id="successfullyGivenBook" style="display: none">
 			<%=languageResources.getResource(Constants.SUCCESSFULLY_GIVEN_BOOK)%>
 		</h2>
 

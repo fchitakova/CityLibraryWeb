@@ -18,7 +18,6 @@ import main.java.Constants;
 
 public class ResourseManager {
 
-	public static final String RESOURCE_BUNDLE_BASE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\languageResources_";
 
 	public static final String BG_LANGUAGE_INITIALS = "bg_BG";
 
@@ -44,7 +43,7 @@ public class ResourseManager {
 
 	private void initResourceBundle() throws IOException {
 
-		StringBuilder filePath = new StringBuilder(RESOURCE_BUNDLE_BASE_PATH);
+		StringBuilder filePath = new StringBuilder(Constants.RESOURCE_BUNDLE_BASE_PATH);
 
 		if (currentLanguage.equals(Constants.BG_LANGUAGE)) {
 

@@ -17,16 +17,15 @@ import com.google.gson.JsonObject;
 
 import jdk.internal.org.xml.sax.SAXException;
 import main.java.LibraryModel;
-import main.java.view.WebViewManagingServlet;
+import main.java.exceptions.MissingReaderException;
 
 @WebServlet(urlPatterns = { "/giveBook" })
 public class GiveBookToReaderServlet extends WebViewManagingServlet {
-	private String readerName;
+	private  String readerName;
 
 	public GiveBookToReaderServlet() throws ClassNotFoundException, IOException, TransformerException, SAXException,
 			SQLException, TransformerFactoryConfigurationError, ParserConfigurationException, org.xml.sax.SAXException {
 		super();
-		readerName = null;
 
 	}
 
@@ -34,51 +33,35 @@ public class GiveBookToReaderServlet extends WebViewManagingServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String readerName = request.getParameter("readerName");
-		if (readerName != null) {
-			boolean validReaderName = LibraryModel.checkInputTextValidity(readerName);
-			boolean registeredReader = false;
-			if (libraryDataController.getSpecificReader(readerName) != null) {
-				registeredReader = true;
-			}
-			sendValidityObject(response, validReaderName, registeredReader);
-
-			if (validReaderName && registeredReader) {
-				this.readerName = readerName;
-			}
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("giveBook.jsp");
-			rd.forward(request, response);
-		}
-	}
-
-	private void sendValidityObject(HttpServletResponse response, boolean validReaderName, boolean registeredReader)
-			throws IOException {
-		JsonObject responseJson = new JsonObject();
-		responseJson.addProperty("validReaderName", validReaderName);
-		responseJson.addProperty("registeredReader", registeredReader);
-		sendJsonResponse(response, responseJson.toString());
+		RequestDispatcher rd = request.getRequestDispatcher(GIVE_BOOK_JSP_FILE_NAME);
+		rd.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String chosenBookRequest=request.getParameter("chosenBook");
-		
-		if (chosenBookRequest!=null) {
-			String[] titleAndAuthor = chosenBookRequest.replaceAll("\"", "").split(" ");
-			try {
-				System.out.println(titleAndAuthor[0] + " " + titleAndAuthor[1] + " " + readerName);
-				libraryDataController.giveBookToReader(titleAndAuthor[0], titleAndAuthor[1], readerName);
-			} catch (TransformerException | TransformerFactoryConfigurationError | ParserConfigurationException
-					| SAXException | SQLException | PropertyVetoException | org.xml.sax.SAXException e) {
-				e.printStackTrace();
-			}
+		String requestReaderName = request.getParameter(READER_NAME_REQUEST_PARAMETER);
+		String chosenBookRequest = request.getParameter(CHOSEN_BOOK_REQUEST_PARAMETER);
 
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("giveBook.jsp");
-			rd.forward(request, response);
+		if (requestReaderName != null) {
+			readerName = requestReaderName;
+			String jsonResponse = this.getReaderValidityAsString(readerName);
+			sendJsonResponse(response, jsonResponse);
+			return;
 		}
-
+		if (chosenBookRequest != null) {
+			giveBookToReader(readerName, chosenBookRequest);
+		}
 	}
 
+
+
+	private void giveBookToReader(String readerName, String chosenBookRequest) throws IOException {
+		String[] authorAndTitle = chosenBookRequest.replaceAll("\"", "").split(" ");
+		try {
+			libraryDataController.giveBookToReader(authorAndTitle[0], authorAndTitle[1], readerName);
+		} catch (TransformerException | TransformerFactoryConfigurationError | ParserConfigurationException
+				| SAXException | SQLException | PropertyVetoException | org.xml.sax.SAXException e) {
+			e.printStackTrace();
+		}
+	}
 }

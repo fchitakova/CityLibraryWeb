@@ -1,3 +1,21 @@
+$(document).ready(function() {
+	$("#menu").load("index.jsp");
+});
+
+function hideElements(elementsId) {
+	var elementsNumber = elementsId.length;
+	for ( var i in elementsId) {
+		document.getElementById(elementsId[i]).style.display = "none";
+	}
+}
+
+function showElements(elementsId) {
+	var elementsNumber = elementsId.length;
+	for ( var i in elementsId) {
+		document.getElementById(elementsId[i]).style.display = "block";
+	}
+}
+
 
 $(document).ready(function() {
 	$.ajax({
@@ -18,7 +36,7 @@ $(document).on('click', '#submitReaderNameButton', function() {
 	var readerName = $("#readerName").val();
 	$.ajax({
 		url : "/CityLibraryWeb/giveBook",
-		type : "GET",
+		type : "POST",
 		dataType : "text",
 		data : {
 			"readerName" : readerName
@@ -65,8 +83,8 @@ function printAvailableBooksOptions() {
 		type : "POST",
 		dataType : "json",
 		success : function(books) {
-			if (books !== null) {
-
+			var size=Object.keys(books).length;
+			if (size !== 0) {
 				showElements([ 'showResult', 'booksLabels' ]);
 				$.each(books, function(index, book) {
 					$("<tr>").appendTo($("#booksTable")).append(

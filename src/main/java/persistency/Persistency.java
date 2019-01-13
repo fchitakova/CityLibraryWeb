@@ -74,8 +74,10 @@ public interface Persistency {
      * @param reader is the reader which returns.
 	 * @throws Exception 
 	 * @throws TransformerFactoryConfigurationError 
+	 * @throws TransformerException 
+	 * @throws TransformerConfigurationException 
 	 */
-	public abstract void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError,SQLException, PropertyVetoException, IOException, Exception;
+	public abstract void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError,SQLException, PropertyVetoException, IOException, TransformerConfigurationException, TransformerException;
 
 	/**
 	 * This method checks if passed reader and book arguments are in persistency.

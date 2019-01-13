@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -16,6 +17,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import jdk.internal.org.xml.sax.SAXException;
 import main.java.exceptions.BookException;
+import main.java.exceptions.MissingReaderException;
 import main.java.persistency.DBPersistency;
 import main.java.persistency.Persistency;
 import main.java.persistency.XmlDOMPersistency;
@@ -182,19 +184,17 @@ public class LibraryModel implements Serializable {
 	}
 
 	/**
-	 * This method returns the taken books of a reader. If the reader is registered
-	 * and has got any taken books, a set containing the taken books is returned.
-	 * Otherwise MissingReadersException is thrown.
+	 * This method returns set of books taken by specific reader.If the reader is
+	 * not registered MissingReaderException is thrown.
 	 * 
 	 * @param readerName is the name of the reader who`s books are wanted
-	 * @return set of books taken by this reader
-	 * @throws ReaderException
+	 * @return set of books
+	 * @throws MissingReaderException
 	 */
-	public Set<Book> getBooksOfReader(String readerName) throws ReaderException {
+	public Set<Book> getBooksOfReader(String readerName) throws MissingReaderException {
+
 		Reader reader = readers.getReaderFromSet(readerName);
-		if (reader == null) {
-			throw new ReaderException(Constants.NOT_REGISTERED_READER);
-		}
+
 		return reader.getReaderBooks();
 	}
 
@@ -242,27 +242,6 @@ public class LibraryModel implements Serializable {
 		return sortedBooksList;
 	}
 
-	/**
-	 * This method is used for giving book to a reader.
-	 * 
-	 * @param Book   is the wanted book.
-	 * @param reader
-	 * @throws ReaderException                      is thrown in case the reader is
-	 *                                              not registered
-	 * @throws BookException                        is thrown in case the book is
-	 *                                              not available
-	 * @throws PropertyVetoException
-	 * @throws SQLException
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 * @throws TransformerFactoryConfigurationError
-	 * @throws TransformerException
-	 * @throws TransformerConfigurationException
-	 * @throws                                      org.xml.sax.SAXException
-	 * @throws                                      org.xml.sax.SAXException
-	 * @throws Exception
-	 */
 	public void giveBookToReader(String authorName, String title, String readerName)
 			throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError,
 			ParserConfigurationException, SAXException, IOException, SQLException, PropertyVetoException,
@@ -270,7 +249,12 @@ public class LibraryModel implements Serializable {
 		Book bookToAdd = new Book(authorName, title);
 		Reader reader = new Reader(readerName);
 		persistency.giveBookToReader(reader, bookToAdd);
-		readers.getReaderFromSet(readerName).addBook(bookToAdd);
+		try {
+			System.out.println(readerName);
+			readers.getReaderFromSet(readerName).addBook(bookToAdd);
+		} catch (MissingReaderException e) {
+			e.printStackTrace();
+		}
 		bookCatalogue.removeBook(bookToAdd);
 	}
 
@@ -280,13 +264,17 @@ public class LibraryModel implements Serializable {
 	 * and added to library catalog.
 	 * 
 	 * @throws Exception
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws MissingReaderException
 	 * @throws IOException
 	 * @throws PropertyVetoException
 	 * @throws SQLException
-	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException 
+	 * @throws TransformerConfigurationException 
 	 */
 	public void returnBook(String authorName, String title, String readerName)
-			throws TransformerFactoryConfigurationError, SQLException, PropertyVetoException, IOException, Exception {
+			throws TransformerFactoryConfigurationError, MissingReaderException, SQLException, PropertyVetoException,
+			IOException, TransformerConfigurationException, TransformerException {
 		Book bookToReturn = new Book(authorName, title);
 		persistency.returnBook(new Reader(readerName), bookToReturn);
 		bookCatalogue.addBook(bookToReturn);
@@ -315,9 +303,12 @@ public class LibraryModel implements Serializable {
 
 	/**
 	 * This method checks if reader with name @param readerName is registered. If
-	 * reader with this name exists it is returned. Otherwise null is returned.
+	 * reader with this name exists it is returner.Otherwise MissingReaderException
+	 * is thrown.
+	 * 
+	 * @throws MissingReaderException
 	 */
-	public Reader getSpecificReader(String readerName) {
+	public Reader getSpecificReader(String readerName) throws MissingReaderException {
 		return readers.getReaderFromSet(readerName);
 	}
 

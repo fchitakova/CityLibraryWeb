@@ -2,6 +2,8 @@ package main.java;
 
 import java.util.HashSet;
 
+import main.java.exceptions.MissingReaderException;
+
 /**
  * This is reader wrapper class.It contains set of readers and provides access
  * to the information.
@@ -35,18 +37,19 @@ public class Readers {
 	}
 
 	/**
-	 * This method checks for a reader with name @param readerName. If such a reader
-	 * is registered, it is returned. Otherwise null is returned.
+	 * This method checks for a reader with the provided name. If such a reader
+	 * is registered, it is returned. Otherwise MissingReaderException is thrown.
 	 * 
 	 * @param readerName is the name of searched reader
+	 * @throws MissingReaderException 
 	 */
-	public Reader getReaderFromSet(String readerName) {
+	public Reader getReaderFromSet(String readerName) throws MissingReaderException {
 		for (Reader i : readers) {
 			if (i.getName().equals(readerName)) {
 				return i;
 			}
 		}
+		throw new MissingReaderException(Constants.NOT_REGISTERED_READER);
 
-		return null;
 	}
 }

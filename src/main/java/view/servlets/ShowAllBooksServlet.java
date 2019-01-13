@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import jdk.internal.org.xml.sax.SAXException;
 import main.java.Constants;
 import main.java.LibraryBook;
-import main.java.view.WebViewManagingServlet;
 
 @WebServlet(urlPatterns = { "/allBooks" })
 
@@ -50,7 +49,7 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/showBooks.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(SHOW_ALL_BOOKS_JSP_FILE_NAME);
 		rd.forward(request, response);
 	}
 
@@ -76,10 +75,9 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		List<LibraryBook> sortedBooks = getSortedBooks(chosenSortingOrder);
 		String json = null;
 		if (sortedBooks.isEmpty()) {
-			json = "[]";
+			json = EMPTY_JSON_ARRAY;
 		} else {
 			json = new Gson().toJson(sortedBooks);
-
 		}
 		sendJsonResponse(response, json);
 	}

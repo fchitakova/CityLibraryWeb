@@ -11,6 +11,7 @@ ResourseManager languageResources = ResourseManagerSingleton.getInstance();
 <html>
 <head>
 <script src='http://code.jquery.com/jquery-1.7.1.min.js'></script>
+
 <script src="jsFiles/showAvaialableBooks.js"></script>
 
 <title><%=languageResources.getResource(Constants.AVAILABLE_BOOKS_LABEL)%>

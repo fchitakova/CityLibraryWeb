@@ -40,20 +40,23 @@ public class XmlDOMPersistency implements Persistency {
 
 	/**
 	 * Creates new XMlDomPersistency class which manages XML files persistency.
-	 * @throws SAXException 
-	 * @throws TransformerFactoryConfigurationError 
-	 * @throws TransformerException 
-	 * @throws IOException 
-	 * @throws ParserConfigurationException 
-	 * @throws TransformerConfigurationException 
+	 * 
+	 * @throws SAXException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 * @throws TransformerConfigurationException
 	 * 
 	 * @throws Exception
 	 */
-	public XmlDOMPersistency() throws  IOException, TransformerException, TransformerFactoryConfigurationError, SAXException, ParserConfigurationException {
+	public XmlDOMPersistency() throws IOException, TransformerException, TransformerFactoryConfigurationError,
+			SAXException, ParserConfigurationException {
 		initDomPersistency();
 	}
 
-	private void initDomPersistency() throws IOException, TransformerException, TransformerFactoryConfigurationError, SAXException, ParserConfigurationException  {
+	private void initDomPersistency() throws IOException, TransformerException, TransformerFactoryConfigurationError,
+			SAXException, ParserConfigurationException {
 		setReadersDocForLoading();
 		setCatalogueDocForLoading();
 	}
@@ -63,15 +66,17 @@ public class XmlDOMPersistency implements Persistency {
 	 * 
 	 * @param readersDocBuilder is the DocumentBuilder which is used for
 	 *                          parsing/creating readers document
-	 * @throws ParserConfigurationException 
-	 * @throws IOException 
-	 * @throws TransformerFactoryConfigurationError 
-	 * @throws TransformerException 
-	 * @throws TransformerConfigurationException 
-	 * @throws SAXException 
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws TransformerConfigurationException
+	 * @throws SAXException
 	 * @throws Exception
 	 */
-	private void setReadersDocForLoading() throws  IOException,  ParserConfigurationException, TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError, SAXException  {
+	private void setReadersDocForLoading()
+			throws IOException, ParserConfigurationException, TransformerConfigurationException, TransformerException,
+			TransformerFactoryConfigurationError, SAXException {
 		DocumentBuilderFactory readersDocFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder readersDocBuilder = readersDocFactory.newDocumentBuilder();
 		readersFile = new File(Constants.READERS_XML_FILE_PATH);
@@ -92,15 +97,17 @@ public class XmlDOMPersistency implements Persistency {
 	 * 
 	 * @param catalogueBuilder is the DocumentBuilder which is used for
 	 *                         parsing/creating ctalogue document
-	 * @throws ParserConfigurationException 
-	 * @throws IOException 
-	 * @throws TransformerFactoryConfigurationError 
-	 * @throws TransformerException 
-	 * @throws TransformerConfigurationException 
-	 * @throws SAXException 
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws TransformerConfigurationException
+	 * @throws SAXException
 	 * @throws Exception
 	 */
-	private void setCatalogueDocForLoading() throws ParserConfigurationException, IOException, TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError, SAXException  {
+	private void setCatalogueDocForLoading()
+			throws ParserConfigurationException, IOException, TransformerConfigurationException, TransformerException,
+			TransformerFactoryConfigurationError, SAXException {
 
 		DocumentBuilderFactory catalogueDocFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder catalogueDocBuilder = catalogueDocFactory.newDocumentBuilder();
@@ -210,9 +217,9 @@ public class XmlDOMPersistency implements Persistency {
 	 * 
 	 * @return Readers containing successfully parsed reader objects. If there is
 	 *         not any valid reader information new empty Readers object is returned
-	 * @throws ParserConfigurationException 
-	 * @throws IOException 
-	 * @throws SAXException 
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 * @throws SAXException
 	 */
 	@Override
 	public Readers loadReaders() throws ParserConfigurationException, SAXException, IOException {
@@ -238,9 +245,9 @@ public class XmlDOMPersistency implements Persistency {
 	 * 
 	 * @return Catalogue containing successfully parsed book objects. If there is
 	 *         not any valid book information,new empty Catalogue is returned.
-	 * @throws ParserConfigurationException 
-	 * @throws IOException 
-	 * @throws SAXException 
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 * @throws SAXException
 	 */
 	@Override
 	public Catalog loadBookCatalogue() throws ParserConfigurationException, SAXException, IOException {
@@ -324,13 +331,14 @@ public class XmlDOMPersistency implements Persistency {
 	 * Adds new reader element to the readers file.
 	 * 
 	 * @param reader contains the information for creating new Reader element.
-	 * @throws ParserConfigurationException 
-	 * @throws TransformerFactoryConfigurationError 
-	 * @throws TransformerException 
-	 * @throws TransformerConfigurationException 
+	 * @throws ParserConfigurationException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws TransformerConfigurationException
 	 */
 	@Override
-	public void addReader(Reader reader) throws ParserConfigurationException, TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError{
+	public void addReader(Reader reader) throws ParserConfigurationException, TransformerConfigurationException,
+			TransformerException, TransformerFactoryConfigurationError {
 		Element newReader = createReader(reader, readersDoc);
 		Element root = readersDoc.getDocumentElement();
 		root.appendChild(newReader);
@@ -362,14 +370,15 @@ public class XmlDOMPersistency implements Persistency {
 	 *                     negative) to copies of @param book
 	 * @return true if @param bookToChange is in the catalogue so it can be changed.
 	 *         Otherwise returns false.
-	 * @throws TransformerFactoryConfigurationError 
-	 * @throws TransformerException 
-	 * @throws TransformerConfigurationException 
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws TransformerConfigurationException
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
 	 */
-	private boolean changeBookCopies(Book book, Integer changeAmount) throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError {
+	private boolean changeBookCopies(Book book, Integer changeAmount)
+			throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError {
 		Element searchedBookElement = findBook(book);
 		if (searchedBookElement == null) {
 			return false;
@@ -387,12 +396,14 @@ public class XmlDOMPersistency implements Persistency {
 	/**
 	 * Adds @param book to the catalogue document.If the book is already there new
 	 * copy of it is added.
-	 * @throws TransformerFactoryConfigurationError 
-	 * @throws TransformerException 
-	 * @throws TransformerConfigurationException 
+	 * 
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws TransformerConfigurationException
 	 */
 	@Override
-	public void addBook(Book bookToAdd) throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError{
+	public void addBook(Book bookToAdd)
+			throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError {
 		if (!changeBookCopies(bookToAdd, Constants.STANDARD_COPY_ADD_NUM)) {
 			LibraryBook newBook = new LibraryBook(bookToAdd.getAuthor(), bookToAdd.getTitle(),
 					Constants.STANDARD_COPY_ADD_NUM);
@@ -411,7 +422,7 @@ public class XmlDOMPersistency implements Persistency {
 	 * @throws IOException
 	 * @throws SAXException
 	 */
-	private Element findReader(Reader reader) throws ParserConfigurationException, SAXException, IOException {
+	private Element findReader(Reader reader) throws IOException {
 		NodeList readers = readersDoc.getElementsByTagName(Constants.XML_READER_ELEMENT);
 		for (int i = 0; i < readers.getLength(); ++i) {
 			Element currentReader = (Element) readers.item(i);
@@ -432,15 +443,17 @@ public class XmlDOMPersistency implements Persistency {
 	 * 
 	 * @param book   is the book which is given.
 	 * @param reader is the reader which takes the book.
-	 * @throws TransformerFactoryConfigurationError 
-	 * @throws TransformerException 
-	 * @throws TransformerConfigurationException 
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 * @throws TransformerConfigurationException
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
 	 */
 	@Override
-	public void giveBookToReader(Reader reader, Book book) throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError, ParserConfigurationException, SAXException, IOException{
+	public void giveBookToReader(Reader reader, Book book)
+			throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError,
+			ParserConfigurationException, SAXException, IOException {
 		Element readerToModify = findReader(reader);
 		if (readerToModify == null) {
 			return;
@@ -459,17 +472,17 @@ public class XmlDOMPersistency implements Persistency {
 	 * 
 	 * @param book   is the book which is being returned.
 	 * @param reader is the reader which returns.
-	 * @throws TransformerFactoryConfigurationError 
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws IOException
 	 * @throws TransformerException 
 	 * @throws TransformerConfigurationException 
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
-	 * @throws Exception 
+	 * @throws DOMException 
+	 * @throws Exception
 	 */
 	@Override
-	public void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError, TransformerConfigurationException, TransformerException, ParserConfigurationException, SAXException, IOException{
+	public void returnBook(Reader reader, Book book) throws TransformerFactoryConfigurationError, IOException, TransformerConfigurationException, TransformerException, DOMException {
 		Element readerToModify = findReader(reader);
+
 		if (readerToModify == null) {
 			return;
 		}

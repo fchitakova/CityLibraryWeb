@@ -21,6 +21,7 @@ import main.java.LibraryBook;
 import main.java.LibraryModel;
 import main.java.Reader;
 import main.java.exceptions.BookException;
+import main.java.exceptions.MissingReaderException;
 import main.java.exceptions.ReaderException;
 
 /**
@@ -61,7 +62,7 @@ public class ConsoleView implements View {
 			IllegalAccessException, ClassNotFoundException, TransformerFactoryConfigurationError,
 			ParserConfigurationException, TransformerException, SAXException, SQLException, PropertyVetoException,
 			jdk.internal.org.xml.sax.SAXException {
-		libraryDataController =LibraryModel.getInstance();
+		libraryDataController = LibraryModel.getInstance();
 		languageResouces = new ResourseManager();
 	}
 
@@ -277,7 +278,7 @@ public class ConsoleView implements View {
 			throws IOException, TransformerFactoryConfigurationError, SQLException, PropertyVetoException, Exception {
 		String readerName = getReader();
 
-		if (checkReaderValidity(readerName)==false) {
+		if (checkReaderValidity(readerName) == false) {
 			return;
 		}
 
@@ -347,7 +348,9 @@ public class ConsoleView implements View {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return false;
 		}
-		if (libraryDataController.getSpecificReader(readerName) == null) {
+		try {
+			libraryDataController.getSpecificReader(readerName);
+		} catch (MissingReaderException e) {
 			printResource(Constants.NOT_REGISTERED_READER);
 			return false;
 		}

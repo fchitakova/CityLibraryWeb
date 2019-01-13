@@ -1,6 +1,5 @@
 $(document).ready(function() {
-	showElements([ 'readerNameSubmit' ]);
-		$("#menu").load("index.jsp");
+	$("#menu").load("index.jsp");
 });
 
 function hideElements(elementsId) {
@@ -17,14 +16,13 @@ function showElements(elementsId) {
 	}
 }
 
-
 $(document).on(
 		'click',
 		'#submitReaderNameButton',
 		function() {
 			var readerName = $("#readerName").val();
 			$.ajax({
-				url : "/CityLibraryWeb/returnBook",
+				url : "/CityLibraryWeb/showReaderBooks",
 				type : "POST",
 				dataType : "text",
 				data : {
@@ -34,8 +32,9 @@ $(document).on(
 					$('#booksTable').html("");
 					hideElements([ 'notValidReaderName', 'notRegisteredReader',
 							'notAnyBooksMessage', 'showResult' ]);
-					if (checkReturningReaderValidity(readerValidityObject) === true) {
+					if (checkReaderValidity(readerValidityObject) === true) {
 						printReadersBook();
+
 					}
 
 				}
@@ -43,7 +42,7 @@ $(document).on(
 
 		});
 
-function checkReturningReaderValidity(readerValidityObject) {
+function checkReaderValidity(readerValidityObject) {
 	readerValidityObject = JSON.parse(readerValidityObject);
 	if (readerValidityObject.validReaderName === false) {
 		showElements([ 'notValidReaderName' ]);
@@ -59,45 +58,20 @@ function checkReturningReaderValidity(readerValidityObject) {
 	return true;
 }
 
-
-
-
-$(document).on('click','#submitBookButton',function() {
-			var chosenBook = $('input[name=booksToChoose]:checked',
-					'#showResult').val();
-			if (chosenBook == null) {
-				showElements([ 'invalidChoice' ]);
-				return;
-			} else {
-				$.ajax({
-					url : "/CityLibraryWeb/returnBook",
-					type : "POST",
-					dataType : "json",
-					data : {
-						"chosenBook" : JSON.stringify(chosenBook)
-					},
-					success : function() {
-						showElements([ 'successfullyReturnedBook' ]);
-					}
-				});
-			}
-		});
-
 function printReadersBook() {
 	$.ajax({
-		url : "/CityLibraryWeb/returnBook",
+		url : "/CityLibraryWeb/showReaderBooks",
 		type : "POST",
 		dataType : "json",
 		success : function(books) {
-			var size=Object.keys(books).length;
+			var size = Object.keys(books).length;
 			if (size !== 0) {
-				showElements([ 'showResult', 'booksLabels']);
+
+				showElements([ 'showResult', 'booksLabels' ]);
 				$.each(books, function(index, book) {
 					$("<tr>").appendTo($("#booksTable")).append(
-							'<input type="radio" name="booksToChoose" value="'
-									+ book.author + " " + book.title + '">')
-							.append($("<td>").text(book.title)).append(
-									$("<td>").text(book.author));
+							$("<td>").text(book.title)).append(
+							$("<td>").text(book.author));
 
 				});
 			} else {

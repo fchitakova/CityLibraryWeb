@@ -16,6 +16,7 @@ import main.java.LibraryBook;
 import main.java.LibraryModel;
 import main.java.Reader;
 import main.java.Readers;
+import main.java.exceptions.MissingReaderException;
 
 /**
  * This class load ,store and manage CityLibrary information in a database. SQL
@@ -88,7 +89,9 @@ public class DBPersistency implements Persistency {
 	@Override
 	public Readers loadReaders() throws SQLException, IOException {
 		Readers readersToLoad = new Readers();
+
 		loadReadersWithTakenBooks(readersToLoad);
+
 		loadReadersFromReadersTable(readersToLoad);
 		return readersToLoad;
 	}
@@ -131,8 +134,8 @@ public class DBPersistency implements Persistency {
 	}
 
 	/**
-	 * Loads readers and their from the table which holds the readers which have
-	 * taken books.
+	 * Loads readers and their books from the table which holds the readers which
+	 * have taken books.
 	 * 
 	 * @param readersToLoad
 	 * @throws SQLException
@@ -152,15 +155,16 @@ public class DBPersistency implements Persistency {
 			queryResult = statement.executeQuery();
 			while (queryResult.next()) {
 				String name = queryResult.getString(READER_NAME_COL);
-				Reader newReader = new Reader(name);
 				String title = queryResult.getString(BOOK_TITLE_COL);
 				String author = queryResult.getString(BOOK_AUTHOR_COL);
 				Book bookToAdd = new Book(author, title);
-				Reader searchedReader = readersToLoad.getReaderFromSet(name);
-				if (searchedReader == null) {
-					readersToLoad.add(newReader);
-					newReader.addBook(bookToAdd);
-				} else {
+				Reader searchedReader=null;
+				try {
+					searchedReader = readersToLoad.getReaderFromSet(name);
+				} catch (MissingReaderException e) {
+					searchedReader=new Reader(name);
+					readersToLoad.add(searchedReader);
+				} finally {
 					searchedReader.addBook(bookToAdd);
 				}
 			}
@@ -388,9 +392,10 @@ public class DBPersistency implements Persistency {
 	/**
 	 * Updates the copy number of the returned book and deletes it from the
 	 * returning reader's book list.
-	 * @throws IOException 
-	 * @throws PropertyVetoException 
-	 * @throws SQLException 
+	 * 
+	 * @throws IOException
+	 * @throws PropertyVetoException
+	 * @throws SQLException
 	 */
 	@Override
 	public void returnBook(Reader reader, Book book) throws SQLException, PropertyVetoException, IOException {

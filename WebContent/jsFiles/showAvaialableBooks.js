@@ -16,6 +16,7 @@ function showElements(elementsId) {
 	}
 }
 
+
 $(document)
 .ready(
     function() {

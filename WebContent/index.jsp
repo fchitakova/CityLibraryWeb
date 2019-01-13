@@ -26,8 +26,8 @@
 		<a href="showBooks.jsp" class="indexPageButton"> <b><%=languageResources.getResource(Constants.SEE_ALL_BOOKS)%></b> </a>
 		<a href="availableBooks.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.SEE_AVAILABLE_BOOKS)%></b></a>
 		<a href="giveBook.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.GIVE_BOOK_TO_READER)%></b></a>
-		<a href="returnBook.jsp" class="indexPageButton"><%=languageResources.getResource(Constants.RETURN_BOOK)%></a>
-		<button type="submit" name="button5"><%=languageResources.getResource(Constants.REGISTER_READER)%></button>
+		<a href="returnBook.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.RETURN_BOOK)%></b></a>
+		<a href="showReaderBooks.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.SEE_TAKEN_BOOKS)%></b></a>
 		<button type="submit" name="button6"><%=languageResources.getResource(Constants.ADD_BOOK)%></button>
 
 </body>
