@@ -159,7 +159,7 @@ public class ConsoleView implements View {
 			Book toAdd = getBook();
 			if (toAdd != null) {
 				libraryDataController.addBook(toAdd);
-				printResource(Constants.SUCCESSFUL_ADDED_BOOK);
+				printResource(Constants.SUCCESSFULLY_ADDED_BOOK);
 			}
 			break;
 

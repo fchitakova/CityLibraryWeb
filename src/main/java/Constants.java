@@ -36,7 +36,7 @@ public final class Constants {
 	public static final String PRINT_BOOKS_BY_TITLE="PRINT_BOOKS_BY_TITLE";
 	public static final String SUCCESSFULLY_RETURNED_BOOK = "SUCCESSFULLY_RETURNED_BOOK";
 	public static final String NOT_LIBRARY_BOOK = "NOT_LIBRARY_BOOK";
-	public static final String SUCCESSFUL_ADDED_BOOK = "SUCCESSFUL_ADDED_BOOK";
+	public static final String SUCCESSFULLY_ADDED_BOOK = "SUCCESSFULLY_ADDED_BOOK";
 	public static final String REGISTER_READER = "REGISTER_READER";
 	public static final String SUCCESSFUL_READER_REGISTRATION = "SUCCESSFUL_READER_REGISTRATION";
 	public static final String UNSUCCESSFUL_READER_REGISTRATION = "UNSUCCESSFUL_READER_REGISTRATION";

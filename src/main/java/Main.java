@@ -9,7 +9,6 @@ public class Main {
 			ConsoleView cvc=new ConsoleView();
 
 
-			cvc.runMenu();
 		}
 	}
 
