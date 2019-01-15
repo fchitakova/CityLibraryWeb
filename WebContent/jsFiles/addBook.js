@@ -23,20 +23,19 @@ $(document).on('click', '#submit', function() {
 	$.ajax({
 		url : "/CityLibraryWeb/addBook",
 		type : "POST",
-		dataType : "text",
-		data : {
+		dataType : "json",
+		data :{
 			"title":title,
 			"author":author
 		},
-		success : function(successfullyAdded) {
+		success:function(response) {
 			hideElements(['successfullyAddedBook','notValidTitleOrAuthor']);
-			if (successfullyAdded == 'true') {
+			if (response== true) {
 				showElements(['successfullyAddedBook']);
 			}
 			else{
 				showElements(['notValidTitleOrAuthor']);
 			}
-
 		}
 	});
 

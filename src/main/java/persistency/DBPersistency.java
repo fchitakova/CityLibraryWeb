@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import main.java.Book;
 import main.java.ConnectionPool;
 import main.java.Catalog;
@@ -307,7 +310,10 @@ public class DBPersistency implements Persistency {
 			connection = connectionPool.getConnection();
 			statement = connection.prepareStatement(insertQuery.toString());
 			statement.execute();
-		} finally {
+		}catch(SQLServerException e) {
+			
+		}
+		finally {
 			if (connection != null) {
 				connectionPool.free(connection);
 			}

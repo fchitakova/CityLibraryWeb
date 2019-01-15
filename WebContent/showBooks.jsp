@@ -26,14 +26,13 @@
 		<%=languageResources.getResource(Constants.SEE_ALL_BOOKS)%>
 	</h1>
 	<form id="chooseSortingOrder">
-		<input type="radio" name="sortingOrder" value="byTitle">
-
-
-		<%=languageResources.getResource(Constants.SORTED_BY_TITLE)%>
-		<input type="radio" name="sortingOrder" value="byAuthor">
+	    <label for="sortByTitle"><%=languageResources.getResource(Constants.SORTED_BY_TITLE)%></label>
+		<input type="radio" name="sortingOrder" id="sortByTitle" value="byTitle">
+		<label for="sortByAuthor"><%=languageResources.getResource(Constants.SORTED_BY_TITLE)%></label>
+		<input type="radio" name="sortingOrder" id="sortByAuthor" value="byAuthor">
+		<button id='showBooksButton'><%=languageResources.getResource(Constants.SUBMIT_BUTTON_LABEL)%></button>
 	</form>
-	<%=languageResources.getResource(Constants.SORTED_BY_AUTHOR)%>
-	<button id='showBooksButton'><%=languageResources.getResource(Constants.SUBMIT_BUTTON_LABEL)%></button>
+	
 
 
 

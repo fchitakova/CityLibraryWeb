@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -150,22 +153,13 @@ public class LibraryModel implements Serializable {
 	}
 
 	/**
-	 * This method searches for books by author name. If not any books are
-	 * found @NotAnyBooksException is thrown. Otherwise set containing the books is
-	 * returned.
-	 * 
+	 * This method searches for books by author name.
 	 * @param authorName is the name of the author whom books are searched
 	 * 
 	 * @return set containing the books written by this author
-	 * 
-	 * @throws IOException
-	 * @throws BookException when there are not any books.
-	 */
-	public Set<Book> searchBooksByAuthor(String authorName) throws IOException, BookException {
+*/
+	public Set<Book> searchBooksByAuthor(String authorName){
 		Set<Book> searchedBooks = bookCatalogue.searchByAuthor(authorName);
-		if (searchedBooks.isEmpty()) {
-			throw new BookException(Constants.NOT_ANY_BOOKS_FROM_THIS_AUTHOR);
-		}
 		return searchedBooks;
 
 	}
@@ -284,10 +278,16 @@ public class LibraryModel implements Serializable {
 
 	/**
 	 * Adds new book to library catalog.
+	 * @throws PropertyVetoException 
+	 * @throws SQLException 
+	 * @throws TransformerFactoryConfigurationError 
+	 * @throws TransformerException 
+	 * @throws IOException 
+	 * @throws TransformerConfigurationException 
 	 * 
 	 * @throws Exception
 	 */
-	public void addBook(Book newBook) throws Exception {
+	public void addBook(Book newBook) throws TransformerConfigurationException, IOException, TransformerException, TransformerFactoryConfigurationError, SQLException, PropertyVetoException {
 		persistency.addBook(newBook);
 		bookCatalogue.addBook(newBook);
 	}
@@ -329,9 +329,4 @@ public class LibraryModel implements Serializable {
 		}
 		return false;
 	}
-
-	public static boolean checkInputTextValidity(String input) {
-		return input.matches(Constants.VALID_NAMETEXT_REGEX) && !input.equals("");
-	}
-
 };

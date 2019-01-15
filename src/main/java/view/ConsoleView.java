@@ -20,6 +20,7 @@ import main.java.Constants;
 import main.java.LibraryBook;
 import main.java.LibraryModel;
 import main.java.Reader;
+import main.java.Validator;
 import main.java.exceptions.BookException;
 import main.java.exceptions.MissingReaderException;
 import main.java.exceptions.ReaderException;
@@ -159,7 +160,7 @@ public class ConsoleView implements View {
 			Book toAdd = getBook();
 			if (toAdd != null) {
 				libraryDataController.addBook(toAdd);
-				printResource(Constants.SUCCESSFULLY_ADDED_BOOK);
+				printResource(Constants.SUCCESSFUL_BOOK_ADDING);
 			}
 			break;
 
@@ -248,7 +249,7 @@ public class ConsoleView implements View {
 		}
 		Set<Book> books = libraryDataController.searchBooksByAuthor(author);
 
-		printBooks(books, Constants.PRINT_BOOKS_BY_AUTHOR, Constants.NOT_ANY_BOOKS_FROM_THIS_AUTHOR);
+		printBooks(books,Constants.FOUND_BOOKS, Constants.NOT_ANY_BOOKS_FROM_THIS_AUTHOR);
 	}
 
 	public void searchByTitle() throws IOException {
@@ -259,7 +260,7 @@ public class ConsoleView implements View {
 		}
 		Set<Book> books = libraryDataController.searchBookByTitle(title);
 
-		printBooks(books, Constants.PRINT_BOOKS_BY_TITLE, Constants.NOT_ANY_BOOKS_WITH_TITLE);
+		printBooks(books, Constants.FOUND_BOOKS, Constants.NOT_ANY_BOOKS_WITH_TITLE);
 	}
 
 	public void registerReader() throws IOException, ReaderException, Exception {
@@ -462,7 +463,7 @@ public class ConsoleView implements View {
 				input = "  ";
 			}
 			input = input.replaceAll("\\s+", " ").trim();
-			isValidInput = LibraryModel.checkInputTextValidity(input);
+			isValidInput = Validator.checkInputTextValidity(input);
 			++invalidTryNumber;
 		} while (!isValidInput && invalidTryNumber < MAX_INVALID_INPUT_TRIES);
 

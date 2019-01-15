@@ -147,7 +147,6 @@ public class ConnectionPool implements Runnable {
 		try {
 			Class.forName(driverName);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		StringBuilder usernameToStr = new StringBuilder();

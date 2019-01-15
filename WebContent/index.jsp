@@ -29,6 +29,9 @@
 		<a href="returnBook.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.RETURN_BOOK)%></b></a>
 		<a href="showReaderBooks.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.SEE_TAKEN_BOOKS)%></b></a>
 		<a href="seeReaders.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.SEE_ALL_READERS)%></b></a>
+		<a href="addBook.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.ADD_BOOK)%></b> </a>
+		<a href="registerReader.jsp" class="indexPageButton"> <b><%=languageResources.getResource(Constants.REGISTER_READER)%></b></a>
+		<a href="searchBooks.jsp" class="indexPageButton"> <b><%=languageResources.getResource(Constants.SEARCH_BOOKS_LABEL) %></b></a>
 
 </body>
 </html>

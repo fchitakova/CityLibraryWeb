@@ -53,10 +53,7 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		rd.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -86,7 +83,7 @@ public class ShowAllBooksServlet extends WebViewManagingServlet {
 		int sortingOrderChoice = Constants.INVALID_CHOICE_NUMBER;
 		List<LibraryBook> sortedBooks = null;
 
-		if (chosenSortingOrder.equals(SORT_BY_TITLE_JSON_STR)) {
+		if (chosenSortingOrder.equals(APPLY_BY_TITLE_JSON_STR)) {
 			sortingOrderChoice = Constants.SORT_BY_TITLE_ID;
 
 		} else {

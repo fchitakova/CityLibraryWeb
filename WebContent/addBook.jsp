@@ -17,25 +17,26 @@
 </head>
 <body>
 	<div id="menu"></div>
-    <br>
-    <br>
-    <br>
+	<br>
+	<br>
+	<br>
+	<h2>
+		<%=languageResources.getResource(Constants.ADD_BOOK)%>
+	</h2>
 	<div id="submitBook">
 		<label for="title"><%=languageResources.getResource(Constants.ENTER_TITLE)%></label>
-		<input type="text" id="title" name="title">
-		<br>
-		 <label for="author"><%=languageResources.getResource(Constants.ENTER_AUTHOR)%></label>
-		<input type="text" id="author" name="author">
-		<br>
+		<input type="text" id="title" name="title"> <br> <label
+			for="author"><%=languageResources.getResource(Constants.ENTER_AUTHOR)%></label>
+		<input type="text" id="author" name="author"> <br>
 		<button id="submit"><%=languageResources.getResource(Constants.SUBMIT_BUTTON_LABEL)%></button>
 	</div>
-	
-	<h2 id="successfullyAddedBook" style="display:none">
-	    <%=languageResources.getResource(Constants.SUCCESSFULLY_ADDED_BOOK)%>
+
+	<h2 id="successfullyAddedBook" style="display: none">
+		<%=languageResources.getResource(Constants.SUCCESSFUL_BOOK_ADDING)%>
 	</h2>
-	
+
 	<h2 id="notValidTitleOrAuthor" style="display: none">
-	
+	 <%=languageResources.getResource(Constants.INVALID_INPUT_MESSAGE)%>
 	</h2>
 
 

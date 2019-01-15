@@ -44,7 +44,7 @@ public class GiveBookToReaderServlet extends WebViewManagingServlet {
 
 		if (requestReaderName != null) {
 			readerName = requestReaderName;
-			String jsonResponse = this.getReaderValidityAsString(readerName);
+			String jsonResponse = getReaderValidityAsString(readerName);
 			sendJsonResponse(response, jsonResponse);
 			return;
 		}

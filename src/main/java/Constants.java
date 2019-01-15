@@ -14,10 +14,13 @@ public final class Constants {
 	public static final String EMPTY_MESSAGE="";
 	public static final String ALL_BOOKS_LABEL="ALL_BOOKS_LABEL";
 	public static final String SEE_ALL_BOOKS="SEE_ALL_BOOKS";
+	public static final String FOUND_BOOKS="FOUND_BOOKS";
 	public static final String AVAILABLE_BOOKS_LABEL="AVAILABLE_BOOKS_LABEL";
 	public static final String SORTED_BY_TITLE = "SORTED_BY_TITLE";
 	public static final String SORTED_BY_AUTHOR = "SORTED_BY_AUTHOR";
 	public static final String BOOK_TITLE_LABEL="BOOK_TITLE_LABEL";
+	public static final String SEARCH_BOOKS_LABEL="SEARCH_BOOKS_LABEL";
+	public static final String SEARCH_BUTTON_LABEL="SEARCH_BUTTON_LABEL";
 	public static final String GIVE_BOOK_LABEL="GIVE_BOOK_LABEL";
 	public static final String SEE_TAKEN_BOOKS="SEE_TAKEN_BOOKS";
 	public static final String BOOK_AUTHOR_LABEL="BOOK_AUTHOR_LABEL";
@@ -30,22 +33,22 @@ public final class Constants {
 	public static final String GIVE_BOOK_TO_READER = "GIVE_BOOK_TO_READER";
 	public static final String RETURN_BOOK = "RETURN_BOOK";
 	public static final String ADD_BOOK = "ADD_BOOK";
-	public static final String PRINT_BOOKS_BY_AUTHOR="PRINT_BOOKS_BY_AUTHOR";
+	public static final String _BOOKS_BY_AUTHOR="_BOOKS_BY_AUTHOR";
 	public static final String ENTER_USERNAME="ENTER_USERNAME";
 	public static final String ENTER_PASSWORD="ENTER_PASSWORD";
-	public static final String PRINT_BOOKS_BY_TITLE="PRINT_BOOKS_BY_TITLE";
+	public static final String _BOOKS_BY_TITLE="_BOOKS_BY_TITLE";
 	public static final String SUCCESSFULLY_RETURNED_BOOK = "SUCCESSFULLY_RETURNED_BOOK";
 	public static final String NOT_LIBRARY_BOOK = "NOT_LIBRARY_BOOK";
-	public static final String SUCCESSFULLY_ADDED_BOOK = "SUCCESSFULLY_ADDED_BOOK";
-	
+	public static final String SUCCESSFUL_BOOK_ADDING="SUCCESSFUL_BOOK_ADDING";
 	public static final String REGISTER_READER = "REGISTER_READER";
 	public static final String SUCCESSFUL_READER_REGISTRATION = "SUCCESSFUL_READER_REGISTRATION";
 	public static final String UNSUCCESSFUL_READER_REGISTRATION = "UNSUCCESSFUL_READER_REGISTRATION";
+	public static final String INVALID_INPUT_MESSAGE="INVALID_INPUT_MESSAGE";
 	public static final String NOT_REGISTERED_READER = "NOT_REGISTERED_READER";
 	public static final String NOT_VALID_READER_NAME = "NOT_VALID_READER_NAME";
 	public static final String NOT_VALID_BOOK_TITLE = "NOT_VALID_BOOK_TITLE";
 	public static final String NOT_VALID_AUTHOR_NAME = "NOT_VALID_AUTHOR_NAME";
-	public static final String SEE_ALL_READERS = "PRINT_READERS";
+	public static final String SEE_ALL_READERS = "_READERS";
 	public static final String REGISTERED_READERS_MESSAGE="REGISTERED_READERS_MESSAGE";
 	public static final String SUCCESSFULLY_GIVEN_BOOK = "SUCCESSFULLY_GIVEN_BOOK";
 	public static final String TOO_MANY_INVALID_ATTEMPTS="TOO_MANY_INVALID_ATTEMPTS";
@@ -53,9 +56,9 @@ public final class Constants {
 	public static final String TAKEN_BOOKS_BY_READER="TAKEN_BOOKS_BY_READER";
 	public static final String NOT_ANY_TAKEN_BOOKS="NOT_ANY_TAKEN_BOOKS";
 	public static final String SEARCH_BY_TITLE = "SEARCH_BY_TITLE";
-	public static final String PRINT_ALL_BOOKS="PRINT_ALL_BOOKS";
-	public static final String PRINT_AVAILABLE_BOOKS="PRINT_AVAILABLE_BOOKS";
-	public static final String PRINT_SORTED = "PRINT_SORTED";
+	public static final String _ALL_BOOKS="_ALL_BOOKS";
+	public static final String _AVAILABLE_BOOKS="_AVAILABLE_BOOKS";
+	public static final String _SORTED = "_SORTED";
 	public static final String NOT_AVAILABLE_BOOK = "NOT_AVAILABLE_BOOK";
 	public static final String NOT_ANY_BOOKS_WITH_TITLE = "NOT_ANY_BOOKS_WITH_TITLE";
 	public static final String SEARCH_BY_AUTHOR_RROPERTY = "SEARCH_BY_AUTHOR";
@@ -85,11 +88,11 @@ public final class Constants {
 	public static final String INVALID_CHOICE = "INVALID_CHOICE";
 	public static final String GOODBYE = "GOODBYE";
 	public static final String PROPERTIES_FILE_EXTENSION = ".properties";
-	public static final String BOOKS_XML_FILE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\catalogue.xml";
-	public static final String READERS_XML_FILE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\readers.xml";
-	public static final String LIBRARY_PROPERTIES_FILE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\library.properties";
-	public static final String DATABASE_PROPERTIES_FILEPATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\databaseProperties.properties";
-	public static final String RESOURCE_BUNDLE_BASE_PATH = "C:\\Users\\MyPC\\Desktop\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\languageResources_";
+	public static final String BOOKS_XML_FILE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\catalogue.xml";
+	public static final String READERS_XML_FILE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WEB-INF\\lib\\resourses\\readers.xml";
+	public static final String LIBRARY_PROPERTIES_FILE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\library.properties";
+	public static final String DATABASE_PROPERTIES_FILEPATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\databaseProperties.properties";
+	public static final String RESOURCE_BUNDLE_BASE_PATH = "C:\\Users\\i356406\\EEeclipse-workspace\\CityLibraryWeb\\WebContent\\WEB-INF\\lib\\resourses\\languageResources_";
 	public static final String DATABASE_PROPERTIES_FILE="databasePersistencyPropertiesFile";
 	public static final String UTF_8_ENCODING = "UTF-8";
 	public static final String XML_BOOK_ELEMENT="book";
@@ -101,7 +104,7 @@ public final class Constants {
 	public static final String XML_READER_NAME_ELEMENT="name";
 	public static final String XML_READER_WRAPPER_ELEMENT="readers";
 	public static final String EXIT_SUBMENU="EXIT_SUBMENU";
-	public static final String VALID_NAMETEXT_REGEX="(\\w*\\s*\\w*)*";
+	public static final String VALID_NAMETEXT_REGEX="^(\\w+\\s*\\w*)+$";
 	public static final String DELIMITER=".";
 	public static final int CHOICE_MENU_LOWER_BOUND=1;
 	public static final int STANDARD_COPY_ADD_NUM=1;
@@ -126,5 +129,7 @@ public final class Constants {
 	public static final int NOT_STORED_FINAL_DATA=0;
 	public static final int SORT_BY_AUTHOR_ID=1;
 	public static final int SORT_BY_TITLE_ID=2;
+	public static final String PRINT_ALL_BOOKS = "PRINT_ALL_BOOKS";
+	public static final String PRINT_AVAILABLE_BOOKS = "PRINT_AVAILABLE_BOOKS";
 
 }
