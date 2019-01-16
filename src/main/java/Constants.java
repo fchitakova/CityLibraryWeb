@@ -48,7 +48,7 @@ public final class Constants {
 	public static final String NOT_VALID_READER_NAME = "NOT_VALID_READER_NAME";
 	public static final String NOT_VALID_BOOK_TITLE = "NOT_VALID_BOOK_TITLE";
 	public static final String NOT_VALID_AUTHOR_NAME = "NOT_VALID_AUTHOR_NAME";
-	public static final String SEE_ALL_READERS = "_READERS";
+	public static final String SEE_ALL_READERS = "SEE_ALL_READERS";
 	public static final String REGISTERED_READERS_MESSAGE="REGISTERED_READERS_MESSAGE";
 	public static final String SUCCESSFULLY_GIVEN_BOOK = "SUCCESSFULLY_GIVEN_BOOK";
 	public static final String TOO_MANY_INVALID_ATTEMPTS="TOO_MANY_INVALID_ATTEMPTS";

@@ -17,6 +17,9 @@ function showElements(elementsId) {
 }
 
 function processInput() {
+	$('#fillBooksInfo').html("");
+	hideElements([ 'invalidChoice', 'invalidInputMessage',
+		'notAnyBooksMessage','foundBooksMessage','showBooks']);
 	var regex = new RegExp("^(\\w+\\s*\\w*)+$");
 	var searchText = $('#searchedText').val();
 	var result = regex.test(searchText);
@@ -24,7 +27,7 @@ function processInput() {
 		showElements([ 'invalidInputMessage' ]);
 		return;
 	}
-	var searchType = $('input[name=searchType]:checked', '#chooseSortingOrder')
+	var searchType = $('input[name=searchType]:checked', '#searchTextInput')
 			.val();
 	if (searchType == null) {
 		showElements([ 'invalidChoice' ]);
@@ -33,19 +36,18 @@ function processInput() {
 	$.ajax({
 		url : "/CityLibraryWeb/searchBooks",
 		data : {
-			"searchType" : JSON.stringify(searchType),
-			"searchText":  JSON.stringify(searchText)
+			"searchType" : searchType,
+			"searchText":  searchText
 		},
 		dataType : "json",
 		type : "POST",
 		success : function(responseJson) {
-			$("#fillBooksInfo").html("");
-			hideElements([ 'invalidChoice', 'invalidInputMessage',
-					'notAnyBooksMessage' ]);
 			var size = Object.keys(responseJson).length;
 			if (size == 0) {
 				showElements([ 'notAnyBooksMessage' ]);
+				return;
 			}
+			showElements(['showBooks','foundBooksMessage']);
 			$.each(responseJson, function(index, sortedBooks) {
 				$("<tr>").appendTo($("#fillBooksInfo")).append(
 						$("<td>").text(sortedBooks.title)).append(

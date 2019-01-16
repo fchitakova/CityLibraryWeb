@@ -45,9 +45,9 @@
 		<%=languageResources.getResource(Constants.INVALID_CHOICE)%>
 	</h2>
 	
-	<h2 id='notAnyBooksMessage'><%=languageResources.getResource(Constants.NOT_ANY_BOOKS) %></h2>
+	<h2 id='notAnyBooksMessage' style="display:none"><%=languageResources.getResource(Constants.NOT_ANY_BOOKS) %></h2>
+	<h2 id='foundBooksMessage' style="display:none"><%=languageResources.getResource(Constants.FOUND_BOOKS) %></h2>
 	<table id="showBooks" style="display: none">
-	<h2><%=languageResources.getResource(Constants.FOUND_BOOKS) %></h2>
 		<tr>
 			<th><%=languageResources.getResource(Constants.BOOK_TITLE_LABEL)%></th>
 			<th><%=languageResources.getResource(Constants.BOOK_AUTHOR_LABEL)%></th>

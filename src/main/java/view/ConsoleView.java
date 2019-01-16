@@ -242,7 +242,7 @@ public class ConsoleView implements View {
 	}
 
 	public void searchByAuthor() throws IOException, BookException {
-		String author = getTextInput(Constants.SEARCH_BY_AUTHOR_RROPERTY, Constants.NOT_VALID_AUTHOR_NAME);
+		String author = getTextInput(Constants.ENTER_AUTHOR, Constants.NOT_VALID_AUTHOR_NAME);
 		if (author == null) {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return;
@@ -253,7 +253,7 @@ public class ConsoleView implements View {
 	}
 
 	public void searchByTitle() throws IOException {
-		String title = getTextInput(Constants.SEARCH_BY_TITLE, Constants.NOT_VALID_BOOK_TITLE);
+		String title = getTextInput(Constants.ENTER_TITLE, Constants.NOT_VALID_BOOK_TITLE);
 		if (title == null) {
 			printResource(Constants.TOO_MANY_INVALID_ATTEMPTS);
 			return;
@@ -498,7 +498,8 @@ public class ConsoleView implements View {
 			printResource(errorMessage);
 			return;
 		}
-		System.out.println(infoMessage + "\n\n");
+		printResource(infoMessage);
+		System.out.print("\n\n\n");
 		for (Book b : books) {
 			System.out.println(b.toString() + '\n');
 		}

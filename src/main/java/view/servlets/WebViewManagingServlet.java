@@ -34,7 +34,7 @@ public class WebViewManagingServlet extends HttpServlet {
 	protected static final String BOOK_AUTHOR_REQUEST_PARAMETER = "author";
 	protected static final String CONTENT_TYPE_JSON = "application/json";
 	protected static final String SORTING_ORDER_REQ_PARAM = "sortingOrder";
-	protected static final String APPLY_BY_TITLE_JSON_STR = "\"byTitle\"";
+	protected static final String APPLY_BY_TITLE_JSON_STR = "byTitle";
 	protected static final String SHOW_ALL_BOOKS_URL = "/allBooks";
 	protected static final String SHOW_AVAILABLE_BOOKS_URL = "availableBooks";
 	protected static final String GIVE_BOOK_TO_READER_URL = "giveBook";

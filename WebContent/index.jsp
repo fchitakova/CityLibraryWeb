@@ -19,9 +19,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+<button>Language</button>
+
 </head>
 <body>
-	<h3>CityLibrary</h3>
+	<h3><%=languageResources.getResource(Constants.TITLE)%></h3>
 
 		<a href="showBooks.jsp" class="indexPageButton"> <b><%=languageResources.getResource(Constants.SEE_ALL_BOOKS)%></b> </a>
 		<a href="availableBooks.jsp" class="indexPageButton"><b><%=languageResources.getResource(Constants.SEE_AVAILABLE_BOOKS)%></b></a>
